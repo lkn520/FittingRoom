@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 
 Vue.use(Router)
 
@@ -8,8 +7,52 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'home',
+      component (resolve) {
+        require(['@/components/home'], resolve)
+      }
+    },
+    {
+      path: '/type',
+      name: 'type',
+      component (resolve) {
+        require(['@/components/type'], resolve)
+      }
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component (resolve) {
+        require(['@/components/user'], resolve)
+      }
+    },
+    {
+      path: '/fitting',
+      name: 'fitting',
+      component (resolve) {
+        require(['@/components/fitting'], resolve)
+      }
+    },
+    {
+      path: '/goods/:id',
+      name: 'goods',
+      component (resolve) {
+        require(['@/components/goods'], resolve)
+      }
+    },
+    {
+      path: '/fitting/detail/:id',
+      name: 'fitting_detail',
+      component (resolve) {
+        require(['@/components/fitting_detail'], resolve)
+      }
+    },
+    {
+      path: '/type/goods/:id',
+      name: 'type_goods',
+      component (resolve) {
+        require(['@/components/type_goods'], resolve)
+      }
     }
   ]
 })
