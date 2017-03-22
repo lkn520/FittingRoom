@@ -1,6 +1,11 @@
-<template></template>
+<template>
+  <div>home</div>
+</template>
 <script>
-  export default {}
+  export default {
+    created () {
+    }
+  }
 </script>
 <style>
 
