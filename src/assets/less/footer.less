@@ -7,6 +7,11 @@
   border-top: 1px solid @deepBorder;
   display: flex;
   height: 0.98rem;
+  z-index: 100;
+  background-color: @bgColor;
+  & + * {
+    margin-bottom: 1rem;
+  }
   .item {
     flex: 1;
     display: flex;
