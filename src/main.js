@@ -3,6 +3,22 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import $ from 'npm-zepto'
+
+$.ajax({
+  type: 'GET',
+  async: false,
+  url: 'http://ui.jiazaiyun.com/Web/api?act=getCarouselList&callback=test',
+  dataType: 'jsonp',
+  jsonp: 'callback',
+  success: function (data) {
+    console.log(data)
+  },
+  error: function () {
+    alert('fail')
+  }
+})
+
 // css
 import './assets/font/iconfont.css'
 import './assets/reset.css'
