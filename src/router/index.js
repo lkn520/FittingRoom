@@ -15,17 +15,47 @@ export default new Router({
     },
     {
       path: '/type',
-      name: 'type',
       component (resolve) {
         require(['@/components/type'], resolve)
-      }
+      },
+      children: [
+        {
+          path: '',
+          name: 'type',
+          component (resolve) {
+            require(['@/components/type-types'], resolve)
+          }
+        },
+        {
+          path: 'user',
+          name: 'type-user',
+          component (resolve) {
+            require(['@/components/type-user'], resolve)
+          }
+        }
+      ]
     },
     {
       path: '/user',
-      name: 'user',
       component (resolve) {
         require(['@/components/user'], resolve)
-      }
+      },
+      children: [
+        {
+          path: '',
+          name: 'user',
+          component (resolve) {
+            require(['@/components/user-fitting'], resolve)
+          }
+        },
+        {
+          path: 'goods',
+          name: 'user-goods',
+          component (resolve) {
+            require(['@/components/user-goods'], resolve)
+          }
+        }
+      ]
     },
     {
       path: '/fitting',
@@ -43,16 +73,16 @@ export default new Router({
     },
     {
       path: '/fitting/detail/:id',
-      name: 'fitting_detail',
+      name: 'fitting-detail',
       component (resolve) {
-        require(['@/components/fitting_detail'], resolve)
+        require(['@/components/fitting-detail'], resolve)
       }
     },
     {
       path: '/type/goods/:id',
-      name: 'type_goods',
+      name: 'type-goods',
       component (resolve) {
-        require(['@/components/type_goods'], resolve)
+        require(['@/components/type-goods'], resolve)
       }
     }
   ]

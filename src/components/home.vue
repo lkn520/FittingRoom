@@ -2,14 +2,8 @@
   <div>
     <div class="home-swipe">
       <swipe>
-        <swipe-item class="swipe-item">
-          <v-image source="/static/images/QZ1.png"></v-image>
-        </swipe-item>
-        <swipe-item class="swipe-item">
-          <v-image source="/static/images/QZ1.png"></v-image>
-        </swipe-item>
-        <swipe-item class="swipe-item">
-          <v-image source="/static/images/QZ1.png"></v-image>
+        <swipe-item class="swipe-item" v-for="item in banner_list" :key="item.id">
+          <v-image :source="item.banner_img | imageFormat"></v-image>
         </swipe-item>
       </swipe>
     </div>
@@ -23,14 +17,14 @@
     </div>
     <div class="goods">
       <div class="goods-list">
-        <div class="goods-item">
+        <router-link class="goods-item" :to="{name: 'goods', params: {id: '1'}}">
           <div class="goods-image">
             <v-image source="'/static/images/QZ1.png'" size="contain"></v-image>
           </div>
           <p class="goods-text">VALENTINO</p>
           <p class="goods-text">金属杰克</p>
           <p class="goods-text goods-price">￥3982</p>
-        </div>
+        </router-link>
         <div class="goods-item">
           <div class="goods-image">
             <v-image source="'/static/images/QZ1.png'" size="contain"></v-image>
@@ -70,9 +64,37 @@
 <script>
   import { Swipe, SwipeItem } from 'vue-swipe'
   import 'vue-swipe/dist/vue-swipe.css'
+  import {getCarousel, getBrandRecommendCommodity} from '../api/api'
   export default {
     components: {
       Swipe, SwipeItem
+    },
+    created () {
+      getCarousel().then(data => {
+        if (data.success === 1) {
+          this.banner_list = data.data.list
+        }
+      })
+      this.getBrandRecommendCommodity()
+    },
+    methods: {
+      getBrandRecommendCommodity () {
+        let params = {
+          page_num: this.page_num,
+          page_no: this.page_no,
+          brand_id: 1
+        }
+        getBrandRecommendCommodity(params).then(data => {
+          console.log(data)
+        })
+      }
+    },
+    data () {
+      return {
+        banner_list: [],
+        page_num: 10,
+        page_no: 1
+      }
     }
   }
 </script>

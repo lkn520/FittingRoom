@@ -1,13 +1,17 @@
 <template>
-  <div id="app">
-    <v-footer />
+  <div id="app" :class="{'mb-footer': isShowFooter}">
     <router-view></router-view>
+    <v-footer />
   </div>
 </template>
 <script>
   import vFooter from './components/components/footer.vue'
+  import {mapState} from 'vuex'
   export default {
     name: 'app',
+    computed: {
+      ...mapState(['isShowFooter'])
+    },
     components: {
       vFooter
     }

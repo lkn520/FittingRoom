@@ -1,0 +1,31 @@
+@import 'utils';
+.tabs {
+  position: fixed;
+  z-index: 100;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.74rem;
+  display: flex;
+  border-bottom: 1px solid @deepBorder;
+  & + * {
+    margin-top: 0.76rem;
+  }
+  .tab-pane {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .tab-link {
+    line-height: 0.72rem;
+    box-sizing: border-box;
+    border-bottom: 2px solid transparent;
+    padding: 0 0.4rem;
+    &.active {
+      color: @highlight;
+      border-bottom: 2px solid @highlight;
+    }
+  }
+}

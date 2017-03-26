@@ -1,0 +1,35 @@
+@import 'utils.less';
+.goods-detail {
+  position: relative;
+  .image-block {
+    height: 7.5rem;
+  }
+  .goods-info {
+    border-bottom: 1px solid @deepBorder;
+    padding-bottom: 0.2rem;
+    margin: 0 0.3rem;
+    .goods-name {
+      font-size: 0.32rem;
+      line-height: 0.48rem;
+    }
+    .goods-price {
+      line-height: 0.42rem;
+      color: @highlight;
+      s {
+        margin-left: 0.3rem;
+        color: @shallow;
+      }
+    }
+  }
+  .goods-collect {
+    position: absolute;
+    bottom: 0.74rem;
+    right: 0.3rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.26rem;
+    .iconfont {
+      font-size: 0.52rem;
+    }
+  }
+}

@@ -1,0 +1,49 @@
+@import './utils.less';
+#user-goods {
+  .goods-list {
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      box-sizing: border-box;
+      width: 50%;
+      height: 4.0rem;
+      border-bottom: 1px solid @shallowBorder;
+      &:nth-of-type(odd) {
+        border-right: 1px solid @shallowBorder;
+      }
+      .image-block {
+        width: 3.0rem;
+        height: 3.4rem;
+        margin: 0 auto;
+      }
+      .footer-block {
+        display: flex;
+        justify-content: space-between;
+        .left {
+          display: flex;
+          align-items: center;
+          margin-left: 0.2rem;
+          .logo {
+            width: 0.4rem;
+            height: 0.4rem;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 0.1rem;
+          }
+          .text {
+            font-size: 0.24rem;
+          }
+        }
+        .right {
+          display: flex;
+          align-items: center;
+          margin-right: 0.3rem;
+          .iconfont {
+            color: @highlight;
+            font-size: 0.36rem;
+          }
+        }
+      }
+    }
+  }
+}
