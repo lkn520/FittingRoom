@@ -46,6 +46,9 @@
         </div>
       </div>
     </div>
+    <div id="top" @click="goToTop()">
+      <i class="iconfont icon-shang"></i>
+    </div>
   </div>
 </template>
 <script>
@@ -53,6 +56,11 @@
   export default {
     components: {
       vHeader
+    },
+    methods: {
+      goToTop () {
+        document.body.scrollTop = 0
+      }
     }
   }
 </script>

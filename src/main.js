@@ -22,10 +22,19 @@ Vue.filter('imageFormat', (value) => {
 })
 
 /* eslint-disable no-new */
-new Vue({
+let vm = new Vue({
   el: '#app',
   router,
   store,
   template: '<App/>',
   components: { App }
+})
+
+router.afterEach((to, from, next) => {
+  let navRouter = ['home', 'type', 'type-user', 'user', 'user-goods']
+  if (navRouter.indexOf(to.name) === -1) {
+    vm.$store.commit('toggleFooter', false)
+  } else {
+    vm.$store.commit('toggleFooter', true)
+  }
 })
