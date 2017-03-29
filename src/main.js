@@ -17,8 +17,17 @@ global.DOMAIN = 'http://www.pokerlady.com.cn'
 
 Vue.config.productionTip = false
 
+// 过滤器
 Vue.filter('imageFormat', (value) => {
   return global.DOMAIN + value
+})
+
+Vue.filter('priceFormat', (value) => {
+  return '￥' + value
+})
+
+Vue.filter('upperCase', (value) => {
+  return value.toUpperCase()
 })
 
 /* eslint-disable no-new */

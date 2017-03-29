@@ -1,5 +1,7 @@
 <template>
-  <div>type-user</div>
+  <div>
+    type-user
+  </div>
 </template>
 <script>
   export default {}

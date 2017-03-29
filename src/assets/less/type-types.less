@@ -1,0 +1,32 @@
+@import "utils";
+.category-list {
+  .item {
+    height: 4.0rem;
+    border-bottom: 1px solid @shallowBorder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    .names {
+      width: 5.0rem;
+      border-top: 1px solid @deepBorder;
+      border-bottom: 1px solid @deepBorder;
+      background-color: rgba(255, 255, 255, 0.6);
+      p {
+        text-align: center;
+        margin: 0.1rem 0;
+        letter-spacing: 0.1rem;
+      }
+      .identifying {
+
+        font-size: 0.28rem;
+        font-weight: bold;
+      }
+      .name {
+        font-size: 0.22rem;
+      }
+    }
+  }
+}

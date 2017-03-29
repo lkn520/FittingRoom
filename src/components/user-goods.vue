@@ -69,7 +69,12 @@
   </div>
 </template>
 <script>
-  export default {}
+  import {getMyCollectGoodsList} from '../api/api'
+  export default {
+    created () {
+      getMyCollectGoodsList()
+    }
+  }
 </script>
 <style lang="less">
   @import "../assets/less/user-goods.less";

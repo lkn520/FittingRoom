@@ -17,46 +17,14 @@
     </div>
     <div class="goods">
       <div class="goods-list">
-        <router-link class="goods-item" :to="{name: 'goods', params: {id: '1'}}">
+        <router-link class="goods-item" :to="{name: 'goods', params: {id: '1'}}" v-for="item in recommend_list" :key="item.id">
           <div class="goods-image">
-            <v-image source="'/static/images/QZ1.png'" size="contain"></v-image>
+            <v-image :source="item.img | imageFormat" size="contain"></v-image>
           </div>
           <p class="goods-text">VALENTINO</p>
           <p class="goods-text">金属杰克</p>
-          <p class="goods-text goods-price">￥3982</p>
+          <p class="goods-text goods-price">{{item.selling_price | priceFormat}}</p>
         </router-link>
-        <div class="goods-item">
-          <div class="goods-image">
-            <v-image source="'/static/images/QZ1.png'" size="contain"></v-image>
-          </div>
-          <p class="goods-text">VALENTINO</p>
-          <p class="goods-text">金属杰克</p>
-          <p class="goods-text goods-price">￥3982</p>
-        </div>
-        <div class="goods-item">
-          <div class="goods-image">
-            <v-image source="'/static/images/QZ1.png'" size="contain"></v-image>
-          </div>
-          <p class="goods-text">VALENTINO</p>
-          <p class="goods-text">金属杰克</p>
-          <p class="goods-text goods-price">￥3982</p>
-        </div>
-        <div class="goods-item">
-          <div class="goods-image">
-            <v-image source="'/static/images/QZ1.png'" size="contain"></v-image>
-          </div>
-          <p class="goods-text">VALENTINO</p>
-          <p class="goods-text">金属杰克</p>
-          <p class="goods-text goods-price">￥3982</p>
-        </div>
-        <div class="goods-item">
-          <div class="goods-image">
-            <v-image source="'/static/images/QZ1.png'" size="contain"></v-image>
-          </div>
-          <p class="goods-text">VALENTINO</p>
-          <p class="goods-text">金属杰克</p>
-          <p class="goods-text goods-price">￥3982</p>
-        </div>
       </div>
     </div>
   </div>
@@ -81,17 +49,19 @@
       getBrandRecommendCommodity () {
         let params = {
           page_num: this.page_num,
-          page_no: this.page_no,
-          brand_id: 1
+          page_no: this.page_no
         }
         getBrandRecommendCommodity(params).then(data => {
-          console.log(data)
+          if (data.success === 1) {
+            this.recommend_list = data.data.list
+          }
         })
       }
     },
     data () {
       return {
         banner_list: [],
+        recommend_list: [],
         page_num: 10,
         page_no: 1
       }
