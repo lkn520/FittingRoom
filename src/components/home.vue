@@ -15,7 +15,7 @@
         所有商品&nbsp;&nbsp;<i class="iconfont icon-suoyoushangpin"></i>
       </router-link>
     </div>
-    <div class="goods">
+    <div class="goods" v-infinite-scroll="getBrandRecommendCommodity" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
       <div class="goods-list">
         <router-link class="goods-item" :to="{name: 'goods', params: {id: '1'}}" v-for="item in recommend_list" :key="item.id">
           <div class="goods-image">
@@ -43,7 +43,7 @@
           this.banner_list = data.data.list
         }
       })
-      this.getBrandRecommendCommodity()
+      // this.getBrandRecommendCommodity()
     },
     methods: {
       getBrandRecommendCommodity () {
@@ -51,9 +51,14 @@
           page_num: this.page_num,
           page_no: this.page_no
         }
+        this.busy = true
         getBrandRecommendCommodity(params).then(data => {
           if (data.success === 1) {
-            this.recommend_list = data.data.list
+            if (this.page_no < data.data.pageTotal) {
+              this.page_no ++
+              this.busy = false
+              this.recommend_list.push(...data.data.list)
+            }
           }
         })
       }
@@ -63,7 +68,8 @@
         banner_list: [],
         recommend_list: [],
         page_num: 10,
-        page_no: 1
+        page_no: 1,
+        busy: false
       }
     }
   }

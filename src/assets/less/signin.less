@@ -1,0 +1,28 @@
+@import "utils";
+#signin {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 101;
+  .signin-mask, .signin-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .signin-mask {
+    background-image: url('/static/images/signinbg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: blur(4px);
+    z-index: 9;
+  }
+  .signin-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  }
+}

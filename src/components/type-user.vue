@@ -4,7 +4,12 @@
   </div>
 </template>
 <script>
-  export default {}
+  import {getMatchList} from '../api/api'
+  export default {
+    created () {
+      getMatchList()
+    }
+  }
 </script>
 <style>
 

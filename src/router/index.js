@@ -7,6 +7,13 @@ export default new Router({
   linkActiveClass: 'active',
   routes: [
     {
+      path: '/signin',
+      name: 'signin',
+      component (resolve) {
+        require(['@/components/signin'], resolve)
+      }
+    },
+    {
       path: '/',
       name: 'home',
       component (resolve) {
@@ -79,7 +86,7 @@ export default new Router({
       }
     },
     {
-      path: '/type/goods/:id',
+      path: '/type-goods/:id',
       name: 'type-goods',
       component (resolve) {
         require(['@/components/type-goods'], resolve)
