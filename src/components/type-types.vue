@@ -1,11 +1,11 @@
 <template>
   <div class="category-list">
-    <div class="item" v-for="item in category_list" :style="{backgroundImage: 'url(http://www.pokerlady.com.cn'+item.img+')'}">
+    <router-link class="item" v-for="item in category_list" :style="{backgroundImage: 'url(http://www.pokerlady.com.cn'+item.img+')'}" :to="{name: 'type-goods', params: {id: item.id, title: item.name}}">
       <div class="names">
         <p class="identifying">{{item.identifying | upperCase}}</p>
         <p class="name">{{item.name}}</p>
       </div>
-    </div>
+    </router-link>
   </div>
 </template>
 <script>

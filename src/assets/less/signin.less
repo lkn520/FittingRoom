@@ -24,5 +24,51 @@
   .signin-container {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 10;
+    padding: 1.2rem 0.8rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    .close {
+      align-self: flex-start;
+      .iconfont {
+        font-size: 0.88rem;
+      }
+    }
+    .user {
+      .iconfont{
+        font-size: 2.22rem;
+      }
+    }
+    .username-input, .password-input {
+      border-bottom: 1px solid #fff;
+      width: 100%;
+      input {
+        width: 100%;
+        border: 0;
+        outline: none;
+        background-color: transparent;
+        color: #fff;
+        text-align: center;
+        line-height: 1.2rem;
+        font-size: 0.38rem;
+      }
+    }
+    .submit-block {
+      position: relative;
+      margin-top: 0.6rem;
+      text-align: center;
+      width: 100%;
+      .signin {
+        font-size: 0.6rem;
+      }
+      .signup {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        font-size: 0.32rem;
+        color: @shallow;
+      }
+    }
   }
 }

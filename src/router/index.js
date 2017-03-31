@@ -86,7 +86,7 @@ export default new Router({
       }
     },
     {
-      path: '/type-goods/:id',
+      path: '/type-goods/:title/:id',
       name: 'type-goods',
       component (resolve) {
         require(['@/components/type-goods'], resolve)

@@ -43,7 +43,6 @@
           this.banner_list = data.data.list
         }
       })
-      // this.getBrandRecommendCommodity()
     },
     methods: {
       getBrandRecommendCommodity () {
@@ -54,7 +53,7 @@
         this.busy = true
         getBrandRecommendCommodity(params).then(data => {
           if (data.success === 1) {
-            if (this.page_no < data.data.pageTotal) {
+            if (this.page_no <= data.data.pageTotal) {
               this.page_no ++
               this.busy = false
               this.recommend_list.push(...data.data.list)
