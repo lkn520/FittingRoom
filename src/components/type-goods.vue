@@ -7,7 +7,7 @@
           <v-image :source="item.img | imageFormat" size="contain"></v-image>
         </div>
         <div class="footer-block">
-          <div class="left">
+          <div class="left" @click="toggleCollect(item.id)">
             <i class="iconfont icon-weishoucang"></i>&nbsp;收藏
           </div>
           <div class="right">
@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-  import {getCategoryGoods} from '../api/api'
+  import {getCategoryGoods, toggleCollect} from '../api/api'
   import vHeader from './components/header.vue'
   export default {
     components: {
@@ -50,6 +50,14 @@
             }
           }
         })
+      },
+      toggleCollect (id) {
+        let params = {
+          type: 1,
+          user_id: sessionStorage.getItem('user_id'),
+          concrete_id: id
+        }
+        toggleCollect(params).then(data => {})
       }
     }
   }

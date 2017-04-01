@@ -34,11 +34,14 @@
     methods: {
       submit () {
         let params = {
-          account: this.username,
+          name: this.username,
           password: this.password
         }
         if (this.isSignin) {
           userLogin(params).then(data => {
+            if (data.success === 1) {
+              sessionStorage.setItem('user_id', data.data.user_id)
+            }
             console.log(data)
           })
         } else {

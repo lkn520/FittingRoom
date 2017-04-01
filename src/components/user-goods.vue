@@ -1,57 +1,9 @@
 <template>
-  <div id="user-goods">
+  <div id="user-goods" v-infinite-scroll="getMyCollectGoodsList" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
     <div class="goods-list">
-      <div class="item">
+        <div class="item" v-for="item in goods_list">
         <div class="image-block">
-          <v-image source="/static/images/QZ1.png" size="contain"></v-image>
-        </div>
-        <div class="footer-block">
-          <div class="left">
-            <div class="logo">
-              <v-image source="/static/images/QZ1.png"></v-image>
-            </div>
-            <span class="text">ABCDEFGH</span>
-          </div>
-          <div class="right">
-            <i class="iconfont icon-yishoucang"></i>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="image-block">
-          <v-image source="/static/images/QZ1.png" size="contain"></v-image>
-        </div>
-        <div class="footer-block">
-          <div class="left">
-            <div class="logo">
-              <v-image source="/static/images/QZ1.png"></v-image>
-            </div>
-            <span class="text">ABCDEFGH</span>
-          </div>
-          <div class="right">
-            <i class="iconfont icon-yishoucang"></i>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="image-block">
-          <v-image source="/static/images/QZ1.png" size="contain"></v-image>
-        </div>
-        <div class="footer-block">
-          <div class="left">
-            <div class="logo">
-              <v-image source="/static/images/QZ1.png"></v-image>
-            </div>
-            <span class="text">ABCDEFGH</span>
-          </div>
-          <div class="right">
-            <i class="iconfont icon-yishoucang"></i>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="image-block">
-          <v-image source="/static/images/QZ1.png" size="contain"></v-image>
+          <v-image :source="item.img | imageFormat" size="contain"></v-image>
         </div>
         <div class="footer-block">
           <div class="left">
@@ -72,7 +24,33 @@
   import {getMyCollectGoodsList} from '../api/api'
   export default {
     created () {
-      getMyCollectGoodsList()
+    },
+    data () {
+      return {
+        goods_list: [],
+        page_num: 10,
+        page_no: 1,
+        busy: false
+      }
+    },
+    methods: {
+      getMyCollectGoodsList () {
+        let params = {
+          user_id: sessionStorage.getItem('user_id'),
+          page_num: this.page_num,
+          page_no: this.page_no
+        }
+        this.busy = true
+        getMyCollectGoodsList(params).then(data => {
+          if (data.success === 1) {
+            if (this.page_no <= data.data.pageTotal) {
+              this.goods_list.push(...data.data.list)
+              this.page_no ++
+              this.busy = false
+            }
+          }
+        })
+      }
     }
   }
 </script>

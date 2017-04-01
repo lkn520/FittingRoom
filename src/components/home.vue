@@ -21,8 +21,8 @@
           <div class="goods-image">
             <v-image :source="item.img | imageFormat" size="contain"></v-image>
           </div>
-          <p class="goods-text">VALENTINO</p>
-          <p class="goods-text">金属杰克</p>
+          <p class="goods-text">{{item.brand_name}}</p>
+          <p class="goods-text">{{item.title}}</p>
           <p class="goods-text goods-price">{{item.selling_price | priceFormat}}</p>
         </router-link>
       </div>
