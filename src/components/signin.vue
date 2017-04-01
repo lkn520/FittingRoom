@@ -41,8 +41,12 @@
           userLogin(params).then(data => {
             if (data.success === 1) {
               sessionStorage.setItem('user_id', data.data.user_id)
+              this.$router.push({
+                name: 'user'
+              })
+            } else {
+              alert(data.desc)
             }
-            console.log(data)
           })
         } else {
           userReg(params).then(data => {

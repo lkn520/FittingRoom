@@ -44,6 +44,13 @@ export default new Router({
     },
     {
       path: '/user',
+      beforeEnter: (to, from, next) => {
+        if (!sessionStorage.getItem('user_id')) {
+          next({name: 'signin'})
+        } else {
+          next()
+        }
+      },
       component (resolve) {
         require(['@/components/user'], resolve)
       },
