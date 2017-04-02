@@ -41,4 +41,7 @@ export const createUserMatch = params => axios.get(`${DOMAIN}/Web/api?act=create
 // 搭配详情 /Web/api?act=getGoodsDetail
 export const getGoodsDetail = params => axios.get(`${DOMAIN}/Web/api?act=getGoodsDetail`, {params: params}).then(res => res.data)
 
+// 精选搭配 /Web/api?act=getChoicenessMatchList
+export const getChoicenessMatchList = params => axios.get(`${DOMAIN}/Web/api?act=getChoicenessMatchList`, {params: params}).then(res => res.data)
+
 export const testpost = params => axios.post('url', params).then(res => res.data)

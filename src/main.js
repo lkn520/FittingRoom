@@ -26,7 +26,7 @@ Vue.filter('imageFormat', (value) => {
 })
 
 Vue.filter('priceFormat', (value) => {
-  return '￥' + value
+  return value + '元'
 })
 
 Vue.filter('upperCase', (value) => {
