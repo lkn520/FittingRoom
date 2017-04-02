@@ -2,7 +2,7 @@
   <div id="signin">
     <div class="signin-mask"></div>
     <div class="signin-container">
-      <div class="close">
+      <div class="close" @click="$router.back()">
         <i class="iconfont icon-suoyoushangpin"></i>
       </div>
       <div class="user">

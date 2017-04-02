@@ -1,7 +1,19 @@
-<template></template>
+<template>
+  <div>
+    <v-header title="搭配"></v-header>
+    <div class="fitting-block">
+      <div class="scene"></div>
+    </div>
+  </div>
+</template>
 <script>
-    export default {}
+  import vHeader from './components/header.vue'
+  export default {
+    components: {
+      vHeader
+    }
+  }
 </script>
-<style>
-
+<style lang="less">
+  @import '../assets/less/fitting.less';
 </style>

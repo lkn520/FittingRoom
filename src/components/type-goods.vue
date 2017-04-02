@@ -2,7 +2,7 @@
   <div id="type-goods" v-infinite-scroll="getCategoryGoods" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
     <v-header :title="$route.params.title"></v-header>
     <div class="goods-list">
-      <div class="item" v-for="item in goods_list">
+      <router-link class="item" v-for="item in goods_list" :to="{name: 'goods', params: {goods_id: item.id}}" :key="item.id">
         <div class="image-block">
           <v-image :source="item.img | imageFormat" size="contain"></v-image>
         </div>
@@ -14,7 +14,7 @@
             <i class="iconfont icon-dapei"></i>&nbsp;搭配
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>

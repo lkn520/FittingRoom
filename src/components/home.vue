@@ -3,12 +3,12 @@
     <div class="home-swipe">
       <swipe>
         <swipe-item class="swipe-item" v-for="item in banner_list" :key="item.id">
-          <v-image :source="item.banner_img | imageFormat"></v-image>
+          <v-image :source="item.img | imageFormat"></v-image>
         </swipe-item>
       </swipe>
     </div>
     <div class="nav">
-      <router-link class="left" :to="{name: 'type'}">
+      <router-link class="left" :to="{name: 'fitting'}">
         <i class="iconfont icon-dapei"></i>&nbsp;&nbsp;开始搭配
       </router-link>
       <router-link class="right" :to="{name: 'type'}">
@@ -17,7 +17,7 @@
     </div>
     <div class="goods" v-infinite-scroll="getBrandRecommendCommodity" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
       <div class="goods-list">
-        <router-link class="goods-item" :to="{name: 'goods', params: {id: '1'}}" v-for="item in recommend_list" :key="item.id">
+        <router-link class="goods-item" :to="{name: 'goods', params: {goods_id: item.id}}" v-for="item in recommend_list" :key="item.id">
           <div class="goods-image">
             <v-image :source="item.img | imageFormat" size="contain"></v-image>
           </div>

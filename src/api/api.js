@@ -2,8 +2,8 @@ import axios from 'axios'
 
 let DOMAIN = 'http://b.pokerlady.com.cn'
 
-// 轮播图
-export const getCarousel = params => axios.get(`${DOMAIN}/Web/api?act=getCarouselList`, {params: params}).then(res => res.data)
+// 轮播图 /Web/api?act=getBannerList
+export const getCarousel = params => axios.get(`${DOMAIN}/Web/api?act=getBannerList`, {params: params}).then(res => res.data)
 
 // 登录
 export const userLogin = params => axios.get(`${DOMAIN}/Web/api?act=login`, {params: params}).then(res => res.data)
@@ -37,5 +37,8 @@ export const getMatchDetail = params => axios.get(`${DOMAIN}/Web/api?act=getMatc
 
 // 创建搭配 /Web/api?act=createUserMatchM2
 export const createUserMatch = params => axios.get(`${DOMAIN}/Web/api?act=createUserMatchM2`, {params: params}).then(res => res.data)
+
+// 搭配详情 /Web/api?act=getGoodsDetail
+export const getGoodsDetail = params => axios.get(`${DOMAIN}/Web/api?act=getGoodsDetail`, {params: params}).then(res => res.data)
 
 export const testpost = params => axios.post('url', params).then(res => res.data)

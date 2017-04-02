@@ -79,7 +79,7 @@ export default new Router({
       }
     },
     {
-      path: '/goods/:id',
+      path: '/goods/:goods_id',
       name: 'goods',
       component (resolve) {
         require(['@/components/goods'], resolve)
