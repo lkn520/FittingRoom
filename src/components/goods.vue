@@ -34,7 +34,7 @@
         <span>精选搭配</span>
       </div>
       <div class="recommend-list" v-infinite-scroll="getChoicenessMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="100">
-        <router-link class="item" v-for="item in choiceness_list" :to="{name: 'goods', params: {goods_id: item.id}}" replace>
+        <router-link class="item" v-for="item in choiceness_list" :to="{name: 'goods', params: {goods_id: item.id}}" :key="item.id" replace>
           <div class="image-block">
             <v-image :source="item.img | imageFormat" size="contain"></v-image>
           </div>
