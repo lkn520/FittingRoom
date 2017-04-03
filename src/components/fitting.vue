@@ -18,26 +18,8 @@
         <div class="goods-nav">
           <div class="nav-list">
             <div class="item icon-arrow" @click="isPullUp = !isPullUp"><i class="iconfont icon-zhankai"></i></div>
-            <div class="item">
-              <span>全部</span>
-            </div>
-            <div class="item">
-              <span>收藏</span>
-            </div>
-            <div class="item">
-              <span>手套</span>
-            </div>
-            <div class="item">
-              <span>上衣</span>
-            </div>
-            <div class="item">
-              <span>裤子</span>
-            </div>
-            <div class="item">
-              <span>外套</span>
-            </div>
-            <div class="item">
-              <span>鞋子</span>
+            <div class="item" v-for="item in nav_list" @click="getCategoryGoods(item.id)">
+              <span>{{item.name}}</span>
             </div>
           </div>
         </div>
@@ -53,32 +35,27 @@
   </div>
 </template>
 <script>
-  let goodsList = [
-    {
-      id: 2,
-      img: '/M2/img/goods/coat/WT2.png'
-    },
-    {
-      id: 3,
-      img: '/M2/img/goods/coat/WT3.png'
-    },
-    {
-      id: 4,
-      img: '/M2/img/goods/coat/WT4.png'
-    }
-  ]
   import vHeader from './components/header.vue'
-  // import {createUserMatch} from '../api/api'
+  import {createUserMatch, getTopCategory, getCategoryGoods} from '../api/api'
   export default {
     components: {
       vHeader
+    },
+    created () {
+      getTopCategory().then(data => {
+        if (data.success === 1) {
+          this.nav_list = data.data.list
+          this.getCategoryGoods(this.nav_list[0].id)
+        }
+      })
     },
     data () {
       return {
         isPullUp: false,
         sceneMoveUse: false,
         scene_list: [],
-        goods_list: goodsList
+        goods_list: [],
+        nav_list: []
       }
     },
     methods: {
@@ -112,7 +89,7 @@
           this.scene_list.push(goodsObj)
         } else {
           this.scene_list = this.scene_list.filter((item) => {
-            return item.id !== goods.id
+            return item.goods_id !== goods.id
           })
         }
       },
@@ -121,8 +98,30 @@
           user_id: sessionStorage.getItem('user_id'),
           jsonStrGoods: JSON.stringify(this.scene_list)
         }
-        console.log(params)
-        // createUserMatch()
+        alert(JSON.stringify(params))
+        createUserMatch(params)
+      },
+      getCategoryGoods (id) {
+        let params = {
+          category: id
+        }
+        getCategoryGoods(params).then(data => {
+          if (data.success === 1) {
+            this.goods_list = data.data.list
+            this.goodsListInit()
+          }
+        })
+      },
+      goodsListInit () {
+        let hashmap = {}
+        this.scene_list.forEach(item => {
+          hashmap[item.goods_id] = 1
+        })
+        this.goods_list.forEach(item => {
+          if (hashmap[item.id] === 1) {
+            this.$set(item, 'current', true)
+          }
+        })
       }
     }
   }

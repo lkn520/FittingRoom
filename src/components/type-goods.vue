@@ -7,7 +7,10 @@
           <v-image :source="item.img | imageFormat" size="contain"></v-image>
         </div>
         <div class="footer-block">
-          <div class="left" @click="toggleCollect(item.id)">
+          <div class="left" @click.prevent="toggleCollect(item)" v-if="item.is_collect == 1">
+            <i class="iconfont icon-yishoucang icon-collect"></i>&nbsp;已收藏
+          </div>
+          <div class="left" @click.prevent="toggleCollect(item)" v-else>
             <i class="iconfont icon-weishoucang"></i>&nbsp;收藏
           </div>
           <div class="right">
@@ -38,7 +41,8 @@
         let params = {
           category: this.$route.params.id,
           page_num: this.page_num,
-          page_no: this.goods_list
+          page_no: this.page_no,
+          user_id: sessionStorage.getItem('user_id')
         }
         this.busy = true
         getCategoryGoods(params).then(data => {
@@ -51,13 +55,17 @@
           }
         })
       },
-      toggleCollect (id) {
+      toggleCollect (goods) {
         let params = {
           type: 1,
           user_id: sessionStorage.getItem('user_id'),
-          concrete_id: id
+          concrete_id: goods.id
         }
-        toggleCollect(params).then(data => {})
+        toggleCollect(params).then(data => {
+          if (data.success === 1) {
+            goods.is_collect = data.data.is_collect
+          }
+        })
       }
     }
   }
