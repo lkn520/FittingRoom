@@ -8,15 +8,30 @@
              @touchmove.prevent="sceneMove($event, goods)"
              @touchend.prevent="sceneUp($event, goods)"
              :src="goods.img | imageFormat" v-for="goods in scene_list"
-             :style="{'transform': `translate3d(${goods.x}px, ${goods.y}px, 0)`}"
+             :style="{'transform': `translate3d(${goods.x}px, ${goods.y}px, 0)`, 'zIndex': goods.sort}"
+             :class="{'current': select_goods&&select_goods.goods_id === goods.goods_id}"
         >
         <div class="save-btn" @click="saveFitting()"><i class="iconfont icon-baocun"></i>&nbsp;保存</div>
+        <div class="edit-group">
+          <div class="edit-item">
+            <i class="iconfont icon-qingkong" @click="clearScene()"></i>清空
+          </div>
+          <div class="edit-item" @click="upGoods()">
+            <i class="iconfont icon-qingkong"></i>向上
+          </div>
+          <div class="edit-item" @click="downGoods()">
+            <i class="iconfont icon-qingkong"></i>向下
+          </div>
+          <div class="edit-item">
+            <i class="iconfont icon-qingkong" @click="delGoods()"></i>删除
+          </div>
+        </div>
       </div>
     </div>
     <div class="fitting-goods" :class="{'pull-up-enter': isPullUp}" @touchmove.stop>
       <div class="goods-nav">
         <div class="nav-list">
-          <div class="item icon-arrow" @click="isPullUp = !isPullUp"><i class="iconfont icon-zhankai"></i></div>
+          <div class="item icon-arrow" :class="{'pull-up': isPullUp}" @click="isPullUp = !isPullUp"><i class="iconfont icon-zhankai"></i></div>
           <div class="item" v-for="item in nav_list" @click="getCategoryGoods(item.category_id)">
             <span>{{item.name}}</span>
           </div>
@@ -53,7 +68,9 @@
         sceneMoveUse: false,
         scene_list: [],
         goods_list: [],
-        nav_list: []
+        nav_list: [],
+        select_goods: null,
+        sort: 50
       }
     },
     methods: {
@@ -61,6 +78,7 @@
         this.sceneMoveUse = true
         goods.offsetX = e.touches[0].clientX - goods.x
         goods.offsetY = e.touches[0].clientY - goods.y
+        this.select_goods = goods
       },
       sceneUp (e, goods) {
         this.sceneMoveUse = false
@@ -82,7 +100,8 @@
             x: 0,
             y: 0,
             scale: 1,
-            angle: 0
+            angle: 0,
+            sort: this.sort++
           }
           this.scene_list.push(goodsObj)
         } else {
@@ -96,7 +115,7 @@
           user_id: sessionStorage.getItem('user_id'),
           jsonStrGoods: JSON.stringify(this.scene_list)
         }
-        alert(JSON.stringify(params))
+        // alert(JSON.stringify(params))
         createUserMatch(params)
       },
       getCategoryGoods (id) {
@@ -118,8 +137,55 @@
         this.goods_list.forEach(item => {
           if (hashmap[item.goods_id] === 1) {
             this.$set(item, 'current', true)
+          } else {
+            this.$set(item, 'current', false)
           }
         })
+      },
+      clearScene () {
+        this.scene_list = []
+        this.goodsListInit()
+      },
+      delGoods () {
+        if (this.select_goods) {
+          this.scene_list = this.scene_list.filter(item => {
+            return item.goods_id !== this.select_goods.goods_id
+          })
+          this.goodsListInit()
+        }
+        this.select_goods = null
+      },
+      upGoods () {
+        if (this.select_goods) {
+          let i = 0
+          this.scene_list.sort((a, b) => {
+            return a.sort - b.sort
+          })
+          for (;i < this.scene_list.length; i++) {
+            if (this.scene_list[i].goods_id === this.select_goods.goods_id) {
+              break
+            }
+          }
+          if (this.scene_list[i + 1]) {
+            [this.scene_list[i + 1].sort, this.scene_list[i].sort] = [this.scene_list[i].sort, this.scene_list[i + 1].sort]
+          }
+        }
+      },
+      downGoods () {
+        if (this.select_goods) {
+          let i = 0
+          this.scene_list.sort((a, b) => {
+            return a.sort - b.sort
+          })
+          for (;i < this.scene_list.length; i++) {
+            if (this.scene_list[i].goods_id === this.select_goods.goods_id) {
+              break
+            }
+          }
+          if (this.scene_list[i - 1]) {
+            [this.scene_list[i - 1].sort, this.scene_list[i].sort] = [this.scene_list[i].sort, this.scene_list[i - 1].sort]
+          }
+        }
       }
     }
   }

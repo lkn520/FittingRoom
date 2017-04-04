@@ -8,18 +8,34 @@
     margin: 0.1rem auto;
     overflow: hidden;
     .goods-img {
+      box-sizing: border-box;
       position: absolute;
       top: 0;
       left: 0;
       width: 2.4rem;
+      border: 1px solid transparent;
+      &.current {
+        border: 1px solid #50e3c2;
+      }
     }
     .save-btn {
       display: flex;
       align-items: center;
       position: absolute;
       bottom: 0.2rem;
-      right: 0.5rem;
+      right: 0.4rem;
       color: @highlight;
+    }
+    .edit-group {
+      position: absolute;
+      bottom: 0.2rem;
+      left: 0.1rem;
+      display: flex;
+      .edit-item {
+        margin: 0 0.1rem;
+        display: flex;
+        align-items: center;
+      }
     }
   }
 }
@@ -52,8 +68,12 @@
         width: 1.2rem;
         height: 1.2rem;
         &.icon-arrow {
+          transition: transform 0.5s;
           .iconfont {
             font-size: 0.60rem;
+          }
+          &.pull-up {
+            transform: rotateZ(180deg);
           }
         }
       }
@@ -84,7 +104,7 @@
           border-left: 1px solid @deepBorder;
         }
         &.current {
-          box-shadow: 0 0 0 0.08rem #50e3c2 inset;
+          box-shadow: 0 0 0 0.04rem #50e3c2 inset;
         }
       }
     }
