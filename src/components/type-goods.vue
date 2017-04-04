@@ -2,7 +2,7 @@
   <div id="type-goods" v-infinite-scroll="getCategoryGoods" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
     <v-header :title="$route.params.title"></v-header>
     <div class="goods-list">
-      <router-link class="item" v-for="item in goods_list" :to="{name: 'goods', params: {goods_id: item.id}}" :key="item.id">
+      <router-link class="item" v-for="item in goods_list" :to="{name: 'goods', params: {goods_id: item.goods_id}}" :key="item.goods_id">
         <div class="image-block">
           <v-image :source="item.img | imageFormat" size="contain"></v-image>
         </div>
@@ -59,7 +59,7 @@
         let params = {
           type: 1,
           user_id: sessionStorage.getItem('user_id'),
-          concrete_id: goods.id
+          concrete_id: goods.goods_id
         }
         toggleCollect(params).then(data => {
           if (data.success === 1) {

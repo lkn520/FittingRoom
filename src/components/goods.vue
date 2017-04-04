@@ -34,7 +34,7 @@
         <span>精选搭配</span>
       </div>
       <div class="recommend-list" v-infinite-scroll="getChoicenessMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="100">
-        <router-link class="item" v-for="item in choiceness_list" :to="{name: 'goods', params: {goods_id: item.id}}" :key="item.id" replace>
+        <router-link class="item" v-for="item in choiceness_list" :to="{name: 'goods', params: {goods_id: item.goods_id}}" :key="item.goods_id" replace>
           <div class="image-block">
             <v-image :source="item.img | imageFormat" size="contain"></v-image>
           </div>
@@ -59,7 +59,11 @@
       this.getGoodsDetail()
     },
     beforeRouteUpdate (to, from, next) {
+      this.page_no = 1
+      this.choiceness_list = []
+      this.busy = false
       this.getGoodsDetail(to.params.goods_id)
+      this.getChoicenessMatchList(to.params.goods_id)
       next()
     },
     methods: {
@@ -69,7 +73,7 @@
       toggleCollect () {
         let params = {
           type: 1,
-          concrete_id: this.goods_detail.id,
+          concrete_id: this.goods_detail.goods_id,
           user_id: sessionStorage.getItem('user_id')
         }
         toggleCollect(params).then(data => {
@@ -79,8 +83,9 @@
         })
       },
       getChoicenessMatchList () {
+        let goodsId = typeof arguments[0] === 'undefined' ? this.$route.params.goods_id : arguments[0]
         let params = {
-          goods_id: this.$route.params.goods_id,
+          goods_id: goodsId,
           page_num: this.page_num,
           page_no: this.page_no
         }

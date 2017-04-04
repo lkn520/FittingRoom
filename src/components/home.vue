@@ -2,7 +2,7 @@
   <div>
     <div class="home-swipe">
       <swipe>
-        <swipe-item class="swipe-item" v-for="item in banner_list" :key="item.id">
+        <swipe-item class="swipe-item" v-for="item in banner_list" :key="item.banner_id">
           <v-image :source="item.img | imageFormat"></v-image>
         </swipe-item>
       </swipe>
@@ -17,13 +17,13 @@
     </div>
     <div class="goods" v-infinite-scroll="getBrandRecommendCommodity" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
       <div class="goods-list">
-        <router-link class="goods-item" :to="{name: 'goods', params: {goods_id: item.id}}" v-for="item in recommend_list" :key="item.id">
+        <router-link class="goods-item" v-for="goods in recommend_list" :to="{name: 'goods', params: {goods_id: goods.goods_id}}" :key="goods.goods_id">
           <div class="goods-image">
-            <v-image :source="item.img | imageFormat" size="contain"></v-image>
+            <v-image :source="goods.img | imageFormat" size="contain"></v-image>
           </div>
-          <p class="goods-text">{{item.brand_name}}</p>
-          <p class="goods-text">{{item.title}}</p>
-          <p class="goods-text goods-price">{{item.selling_price | priceFormat}}</p>
+          <p class="goods-text">{{goods.brand_name}}</p>
+          <p class="goods-text">{{goods.title}}</p>
+          <p class="goods-text goods-price">{{goods.selling_price | priceFormat}}</p>
         </router-link>
       </div>
     </div>

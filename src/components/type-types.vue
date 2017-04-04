@@ -1,6 +1,6 @@
 <template>
   <div class="category-list">
-    <router-link class="item" v-for="item in category_list" :style="{backgroundImage: 'url(http://www.pokerlady.com.cn'+item.img+')'}" :to="{name: 'type-goods', params: {id: item.id, title: item.name}}" :key="item.id">
+    <router-link class="item" v-for="item in category_list" :style="{backgroundImage: 'url(http://www.pokerlady.com.cn'+item.img+')'}" :to="{name: 'type-goods', params: {id: item.category_id, title: item.name}}" :key="item.category_id">
       <div class="names">
         <p class="identifying">{{item.identifying | upperCase}}</p>
         <p class="name">{{item.name}}</p>

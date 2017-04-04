@@ -1,9 +1,9 @@
 <template>
   <div id="user-goods" v-infinite-scroll="getMyCollectGoodsList" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
     <div class="goods-list">
-        <div class="item" v-for="item in goods_list">
+      <router-link class="item" v-for="goods in goods_list" :to="{name: 'goods', params: {goods_id: goods.goods_id}}" :key="goods.goods_id">
         <div class="image-block">
-          <v-image :source="item.img | imageFormat" size="contain"></v-image>
+          <v-image :source="goods.img | imageFormat" size="contain"></v-image>
         </div>
         <div class="footer-block">
           <div class="left">
@@ -16,7 +16,7 @@
             <i class="iconfont icon-yishoucang"></i>
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>

@@ -1,37 +1,35 @@
 <template>
-  <div>
+  <div @touchmove.prevent.stop>
     <v-header title="搭配"></v-header>
     <div class="fitting-block" >
-      <div class="scene" @click.prevent>
+      <div class="scene">
         <img class="goods-img"
-             @touchstart="sceneDown($event, goods)"
-             @touchmove="sceneMove($event, goods)"
-             @touchend="sceneUp($event, goods)"
+             @touchstart.prevent="sceneDown($event, goods)"
+             @touchmove.prevent="sceneMove($event, goods)"
+             @touchend.prevent="sceneUp($event, goods)"
              :src="goods.img | imageFormat" v-for="goods in scene_list"
              :style="{'transform': `translate3d(${goods.x}px, ${goods.y}px, 0)`}"
         >
         <div class="save-btn" @click="saveFitting()"><i class="iconfont icon-baocun"></i>&nbsp;保存</div>
       </div>
     </div>
-    <transition name="pull-up">
-      <div class="fitting-goods" :class="{'pull-up-enter': isPullUp}" @click.prevent>
-        <div class="goods-nav">
-          <div class="nav-list">
-            <div class="item icon-arrow" @click="isPullUp = !isPullUp"><i class="iconfont icon-zhankai"></i></div>
-            <div class="item" v-for="item in nav_list" @click="getCategoryGoods(item.id)">
-              <span>{{item.name}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="goods-group">
-          <div class="goods-list">
-            <div class="item" v-for="goods in goods_list" @click="selectGoods(goods)" :class="{'current': goods.current}">
-              <v-image :source="goods.img | imageFormat" size="contain"></v-image>
-            </div>
+    <div class="fitting-goods" :class="{'pull-up-enter': isPullUp}" @touchmove.stop>
+      <div class="goods-nav">
+        <div class="nav-list">
+          <div class="item icon-arrow" @click="isPullUp = !isPullUp"><i class="iconfont icon-zhankai"></i></div>
+          <div class="item" v-for="item in nav_list" @click="getCategoryGoods(item.category_id)">
+            <span>{{item.name}}</span>
           </div>
         </div>
       </div>
-    </transition>
+      <div class="goods-group">
+        <div class="goods-list">
+          <div class="item" v-for="goods in goods_list" @click="selectGoods(goods)" :class="{'current': goods.current}">
+            <v-image :source="goods.img | imageFormat" size="contain"></v-image>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -45,7 +43,7 @@
       getTopCategory().then(data => {
         if (data.success === 1) {
           this.nav_list = data.data.list
-          this.getCategoryGoods(this.nav_list[0].id)
+          this.getCategoryGoods(this.nav_list[0].category_id)
         }
       })
     },
@@ -79,7 +77,7 @@
         }
         if (goods.current) {
           let goodsObj = {
-            goods_id: goods.id,
+            goods_id: goods.goods_id,
             img: goods.img,
             x: 0,
             y: 0,
@@ -89,7 +87,7 @@
           this.scene_list.push(goodsObj)
         } else {
           this.scene_list = this.scene_list.filter((item) => {
-            return item.goods_id !== goods.id
+            return item.goods_id !== goods.goods_id
           })
         }
       },
@@ -118,7 +116,7 @@
           hashmap[item.goods_id] = 1
         })
         this.goods_list.forEach(item => {
-          if (hashmap[item.id] === 1) {
+          if (hashmap[item.goods_id] === 1) {
             this.$set(item, 'current', true)
           }
         })
