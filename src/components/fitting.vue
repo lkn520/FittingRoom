@@ -17,13 +17,13 @@
             <i class="iconfont icon-qingkong"></i>清空
           </div>
           <div class="edit-item" @click="upGoods()">
-            <i class="iconfont icon-qingkong"></i>向上
+            <i class="iconfont icon-shang"></i>向上
           </div>
           <div class="edit-item" @click="downGoods()">
-            <i class="iconfont icon-qingkong"></i>向下
+            <i class="iconfont icon-xia"></i>向下
           </div>
           <div class="edit-item" @click="delGoods()">
-            <i class="iconfont icon-qingkong"></i>删除
+            <i class="iconfont icon-shanchu"></i>删除
           </div>
         </div>
       </div>

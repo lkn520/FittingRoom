@@ -3,10 +3,10 @@
     <div class="signin-mask"></div>
     <div class="signin-container">
       <div class="close" @click="$router.back()">
-        <i class="iconfont icon-suoyoushangpin"></i>
+        <i class="iconfont icon-guanbi"></i>
       </div>
       <div class="user">
-        <i class="iconfont icon-wode"></i>
+        <i class="iconfont icon-denglutouxiang"></i>
       </div>
       <div class="username-input">
         <input type="text" placeholder="请输入账号" v-model="username">
