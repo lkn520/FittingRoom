@@ -1,8 +1,8 @@
 <template>
   <div @touchmove.prevent.stop>
     <v-header title="搭配"></v-header>
-    <div class="fitting-block" >
-      <div class="scene">
+    <div class="fitting-block">
+      <div class="scene" v-if="scene_list.length">
         <img class="goods-img"
              @touchstart.prevent="sceneDown($event, goods)"
              @touchmove.prevent="sceneMove($event, goods)"
@@ -26,6 +26,10 @@
             <i class="iconfont icon-shanchu"></i>删除
           </div>
         </div>
+      </div>
+      <div class="scene-empty" v-else>
+        <v-image source="/static/images/fittingbg.jpg" size="contain"></v-image>
+        <p>请选择商品进行搭配</p>
       </div>
     </div>
     <div class="fitting-goods" :class="{'pull-up-enter': isPullUp}" @touchmove.stop>
