@@ -13,8 +13,8 @@
         >
         <div class="save-btn" @click="saveFitting()"><i class="iconfont icon-baocun"></i>&nbsp;保存</div>
         <div class="edit-group">
-          <div class="edit-item">
-            <i class="iconfont icon-qingkong" @click="clearScene()"></i>清空
+          <div class="edit-item" @click="clearScene()">
+            <i class="iconfont icon-qingkong"></i>清空
           </div>
           <div class="edit-item" @click="upGoods()">
             <i class="iconfont icon-qingkong"></i>向上
@@ -22,8 +22,8 @@
           <div class="edit-item" @click="downGoods()">
             <i class="iconfont icon-qingkong"></i>向下
           </div>
-          <div class="edit-item">
-            <i class="iconfont icon-qingkong" @click="delGoods()"></i>删除
+          <div class="edit-item" @click="delGoods()">
+            <i class="iconfont icon-qingkong"></i>删除
           </div>
         </div>
       </div>
