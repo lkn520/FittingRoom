@@ -97,6 +97,7 @@
         } else {
           goods.current = !goods.current
         }
+        this.isPullUp = true
         if (goods.current) {
           let goodsObj = {
             goods_id: goods.goods_id,
