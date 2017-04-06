@@ -16,7 +16,7 @@ Vue.use(infiniteScroll)
 
 Vue.component('v-image', image)
 
-global.DOMAIN = 'http://ui.jiazaiyun.com'
+global.DOMAIN = 'http://b.pokerlady.com.cn'
 
 Vue.config.productionTip = false
 
