@@ -8,13 +8,13 @@
              @touchmove.prevent="sceneMove($event, goods)"
              @touchend.prevent="sceneUp($event, goods)"
              :src="goods.img | imageFormat" v-for="goods in scene_list"
-             :style="{'transform': `translate3d(${goods.x}px, ${goods.y}px, 0)`, 'zIndex': goods.sort}"
+             :style="{'transform': `translate3d(${goods.x}px, ${goods.y}px, 0) scale3d(${goods.scale}, ${goods.scale}, 1) rotateZ(${goods.angle}deg)`, 'zIndex': goods.sort}"
              :class="{'current': select_goods&&select_goods.goods_id === goods.goods_id}"
         >
         <div class="save-btn" @click="saveFitting()"><i class="iconfont icon-baocun"></i>&nbsp;保存</div>
         <div class="edit-group">
           <div class="edit-item" @click="clearScene()">
-            <i class="iconfont icon-qingkong"></i>清空
+            清空
           </div>
           <div class="edit-item" @click="upGoods()">
             <i class="iconfont icon-shang"></i>向上
@@ -23,7 +23,7 @@
             <i class="iconfont icon-xia"></i>向下
           </div>
           <div class="edit-item" @click="delGoods()">
-            <i class="iconfont icon-shanchu"></i>删除
+            <i class="iconfont icon-qingkong"></i>删除
           </div>
         </div>
       </div>
@@ -33,10 +33,10 @@
       </div>
     </div>
     <div class="fitting-goods" :class="{'pull-up-enter': isPullUp}" @touchmove.stop>
+      <div class="icon-arrow" :class="{'pull-up': isPullUp}" @click="isPullUp = !isPullUp"><i class="iconfont icon-zhankai"></i></div>
       <div class="goods-nav">
         <div class="nav-list">
-          <div class="item icon-arrow" :class="{'pull-up': isPullUp}" @click="isPullUp = !isPullUp"><i class="iconfont icon-zhankai"></i></div>
-          <div class="item" v-for="item in nav_list" @click="getCategoryGoods(item.category_id)">
+          <div class="item" :class="{'active': item.category_id == category_id}" v-for="item in nav_list" @click="getCategoryGoods(item.category_id)">
             <span>{{item.name}}</span>
           </div>
         </div>
@@ -65,6 +65,12 @@
           this.getCategoryGoods(this.nav_list[0].category_id)
         }
       })
+      this.$on('onScale', (goods, scale) => {
+        goods.scale += scale
+      })
+      this.$on('onRotate', (goods, angle) => {
+        goods.angle += angle
+      })
     },
     data () {
       return {
@@ -73,23 +79,93 @@
         scene_list: [],
         goods_list: [],
         nav_list: [],
+        touchVector: {},
         select_goods: null,
-        sort: 50
+        category_id: -1,
+        sort: 50,
+        touchDistance: 0,
+        previousPinchScale: 1
       }
     },
     methods: {
+      _getDistance (xLen, yLen) {
+        return Math.sqrt(xLen * xLen + yLen * yLen)
+      },
+      _getRotateDirection (vector1, vector2) {
+        return vector1.x * vector2.y - vector2.x * vector1.y
+      },
+      _getRotateAngle (vector1, vector2) {
+        let direction = this._getRotateDirection(vector1, vector2)
+        direction = direction > 0 ? -1 : 1
+        let len1 = this._getDistance(vector1.x, vector1.y)
+        let len2 = this._getDistance(vector2.x, vector2.y)
+        let mr = len1 * len2
+        if (mr === 0) return 0
+        let dot = vector1.x * vector2.x + vector1.y * vector2.y
+        let r = dot / mr
+        if (r > 1) r = 1
+        if (r < -1) r = -1
+        return Math.acos(r) * direction * 180 / Math.PI
+      },
+      onScale (goods) {
+        return (scale) => {
+          goods.scale += scale
+        }
+      },
       sceneDown (e, goods) {
-        this.sceneMoveUse = true
-        goods.offsetX = e.touches[0].clientX - goods.x
-        goods.offsetY = e.touches[0].clientY - goods.y
         this.select_goods = goods
+        if (e.touches.length === 1) {
+          this.sceneMoveUse = true
+          goods.offsetX = e.touches[0].clientX - goods.x
+          goods.offsetY = e.touches[0].clientY - goods.y
+        }
+
+        if (e.touches.length > 1) {
+          let point1 = e.touches[0]
+          let point2 = e.touches[1]
+          let xLen = point1.pageX - point2.pageX
+          let yLen = point1.pageY - point2.pageY
+          this.touchDistance = this._getDistance(xLen, yLen)
+          this.previousPinchScale = 1
+          // 旋转
+          this.touchVector = {
+            x: point2.pageX - point1.pageX,
+            y: point2.pageY - point1.pageY
+          }
+        }
       },
       sceneUp (e, goods) {
         this.sceneMoveUse = false
       },
       sceneMove (e, goods) {
-        goods.x = e.touches[0].clientX - goods.offsetX
-        goods.y = e.touches[0].clientY - goods.offsetY
+        if (e.touches.length === 1 && this.sceneMoveUse) {
+          goods.x = e.touches[0].clientX - goods.offsetX
+          goods.y = e.touches[0].clientY - goods.offsetY
+        }
+
+        if (e.touches.length > 1) {
+          let point1 = e.touches[0]
+          let point2 = e.touches[1]
+          let xLen = point1.pageX - point2.pageX
+          let yLen = point1.pageY - point2.pageY
+          let touchDistance = this._getDistance(xLen, yLen)
+          if (this.touchDistance) {
+            let pinchScale = touchDistance / this.touchDistance
+            this.$emit('onScale', goods, pinchScale - this.previousPinchScale)
+            this.previousPinchScale = pinchScale
+          }
+          // 旋转
+          if (this.touchVector) {
+            let vector = {
+              x: point2.pageX - point1.pageX,
+              y: point2.pageY - point1.pageY
+            }
+            let angle = this._getRotateAngle(vector, this.touchVector)
+            this.$emit('onRotate', goods, angle)
+            this.touchVector.x = vector.x
+            this.touchVector.y = vector.y
+          }
+        }
       },
       selectGoods (goods) {
         if (typeof goods.current === 'undefined') {
@@ -116,9 +192,14 @@
         }
       },
       saveFitting () {
+        let img = new Image()
+        img.src = '/static/images/fittingbg.jpg'
+        let base64Img = this.getBase64Image(img)
+        // let blobImg = this.dataURLtoBlob(base64Img)
         let params = {
           user_id: sessionStorage.getItem('user_id'),
-          jsonStrGoods: JSON.stringify(this.scene_list)
+          jsonStrGoods: JSON.stringify(this.scene_list),
+          base64Img: base64Img
         }
         // alert(JSON.stringify(params))
         createUserMatch(params)
@@ -127,6 +208,7 @@
         let params = {
           category: id
         }
+        this.category_id = id
         getCategoryGoods(params).then(data => {
           if (data.success === 1) {
             this.goods_list = data.data.list
@@ -191,6 +273,26 @@
             [this.scene_list[i - 1].sort, this.scene_list[i].sort] = [this.scene_list[i].sort, this.scene_list[i - 1].sort]
           }
         }
+      },
+      getBase64Image (img) {
+        let canvas = document.createElement('canvas')
+        canvas.width = img.width
+        canvas.height = img.height
+        let cxt = canvas.getContext('2d')
+        cxt.drawImage(img, 0, 0, img.width, img.height)
+        let ext = img.src.substring(img.src.lastIndexOf('.') + 1).toLowerCase()
+        return canvas.toDataURL('image/' + ext)
+      },
+      dataURLtoBlob (dataurl) {
+        let arr = dataurl.split(',')
+        let mime = arr[0].match(/:(.*?);/)[1]
+        let bstr = atob(arr[1])
+        let n = bstr.length
+        let u8arr = new Uint8Array(n)
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n)
+        }
+        return new Blob([u8arr], {type: mime})
       }
     }
   }

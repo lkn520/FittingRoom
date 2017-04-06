@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 
 let DOMAIN = 'http://b.pokerlady.com.cn'
 
@@ -23,8 +24,8 @@ export const getCategoryGoods = params => axios.get(`${DOMAIN}/Web/api?act=getCa
 // 获取搭配列表 /Web/api?act=getMatchList
 export const getMatchList = params => axios.get(`${DOMAIN}/Web/api?act=getMatchList`, {params: params}).then(res => res.data)
 
-// 获取我的搭配列表 /Web/api?act=getMyMatchListM2
-export const getMyMatchList = params => axios.get(`${DOMAIN}/Web/api?act=getMyMatchListM2`, {params: params}).then(res => res.data)
+// 获取我的搭配列表 /Web/api?act=getMyMatchList
+export const getMyMatchList = params => axios.get(`${DOMAIN}/Web/api?act=getMyMatchList`, {params: params}).then(res => res.data)
 
 // 我的收藏 /Web/api?act=getMyCollectGoodsList
 export const getMyCollectGoodsList = params => axios.get(`${DOMAIN}/Web/api?act=getMyCollectGoodsList`, {params: params}).then(res => res.data)
@@ -36,7 +37,7 @@ export const toggleCollect = params => axios.get(`${DOMAIN}/Web/api?act=collect`
 export const getMatchDetail = params => axios.get(`${DOMAIN}/Web/api?act=getMatchDetailM2`, {params: params}).then(res => res.data)
 
 // 创建搭配 /Web/api?act=createUserMatch
-export const createUserMatch = params => axios.get(`${DOMAIN}/Web/api?act=createUserMatch`, {params: params}).then(res => res.data)
+export const createUserMatch = params => axios.post(`${DOMAIN}/Web/api?act=createUserMatch`, qs.stringify(params)).then(res => res.data)
 
 // 搭配详情 /Web/api?act=getGoodsDetail
 export const getGoodsDetail = params => axios.get(`${DOMAIN}/Web/api?act=getGoodsDetail`, {params: params}).then(res => res.data)

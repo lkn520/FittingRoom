@@ -4,7 +4,6 @@
     position: relative;
     width: 6.7rem;
     height: 7.6rem;
-    border: 1px dashed @deepBorder;
     margin: 0.1rem auto;
     overflow: hidden;
     .goods-img {
@@ -66,11 +65,10 @@
   .goods-nav {
     position: absolute;
     background-color: #e5e7eb;
-    width: 100%;
+    width: 6.3rem;
+    right: 0;
     height: 1.2rem;
     top: 0;
-    left: 0;
-    right: 0;
     overflow: auto;
     /*-webkit-overflow-scrolling: touch;*/
     .nav-list {
@@ -83,16 +81,31 @@
         min-width: 1.2rem;
         width: 1.2rem;
         height: 1.2rem;
-        &.icon-arrow {
-          transition: transform 0.5s;
-          .iconfont {
-            font-size: 0.60rem;
-          }
-          &.pull-up {
-            transform: rotateZ(180deg);
+        &.active {
+          span {
+            padding: 0.1rem 0.08rem;
+            color: @highlight;
+            border-bottom: 1px solid @highlight;
           }
         }
       }
+    }
+  }
+  .icon-arrow {
+    position: absolute;
+    background-color: #e5e7eb;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    .iconfont {
+      font-size: 0.60rem;
+    }
+    &.pull-up {
+      transform: rotateZ(180deg);
     }
   }
   .goods-group {
@@ -100,7 +113,7 @@
     top: 1.2rem;
     left: 0;
     right: 0;
-    height: 9.2rem;
+    height: 11.4rem;
     overflow: auto;
 /*    border-top: 1px solid @shallowBorder;
     border-bottom: 1px solid @shallowBorder;*/

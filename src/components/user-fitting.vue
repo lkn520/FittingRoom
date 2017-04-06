@@ -31,7 +31,15 @@
   </div>
 </template>
 <script>
-  export default {}
+  import {getMyMatchList} from '../api/api'
+  export default {
+    created () {
+      let params = {
+        user_id: sessionStorage.getItem('user_id')
+      }
+      getMyMatchList(params)
+    }
+  }
 </script>
 <style lang="less">
   @import "../assets/less/user-fitting.less";
