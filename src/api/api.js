@@ -33,8 +33,8 @@ export const getMyCollectGoodsList = params => axios.get(`${DOMAIN}/Web/api?act=
 // 收藏/取消收藏 /Web/api?act=collect
 export const toggleCollect = params => axios.get(`${DOMAIN}/Web/api?act=collect`, {params: params}).then(res => res.data)
 
-// 搭配详情 /Web/api?act=getMatchDetailM2
-export const getMatchDetail = params => axios.get(`${DOMAIN}/Web/api?act=getMatchDetailM2`, {params: params}).then(res => res.data)
+// 搭配详情 /Web/api?act=getMatchDetail
+export const getMatchDetail = params => axios.get(`${DOMAIN}/Web/api?act=getMatchDetail`, {params: params}).then(res => res.data)
 
 // 创建搭配 /Web/api?act=createUserMatch
 export const createUserMatch = params => axios.post(`${DOMAIN}/Web/api?act=createUserMatch`, qs.stringify(params)).then(res => res.data)

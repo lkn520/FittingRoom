@@ -1,0 +1,47 @@
+@import "utils";
+.fitting-image {
+  width: 100%;
+  height: 6.34rem;
+  border-bottom: 1px solid @shallowBorder;
+}
+.fitting-detail-goods {
+  .goods-list {
+    .item {
+      display: flex;
+      border-bottom: 1px solid @shallowBorder;
+      padding: 0 0.4rem;
+      .image-block, .goods-info, .goods-link {
+        height: 2.4rem;
+      }
+      .image-block {
+        width: 1.8rem
+      }
+      .goods-info {
+        margin-left: 0.4rem;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        .price, .name, .brand-name {
+          margin: 0.06rem 0;
+        }
+        .price {
+          color: @highlight;
+          s {
+            margin-left: 0.3rem;
+            color: @shallow;
+          }
+        }
+        .brand-name {
+          font-size: 0.34rem;
+          font-weight: bold;
+        }
+      }
+      .goods-link {
+        display: flex;
+        align-items: center;
+        color: @highlight;
+      }
+    }
+  }
+}

@@ -7,7 +7,7 @@
              @touchstart.prevent="sceneDown($event, goods)"
              @touchmove.prevent="sceneMove($event, goods)"
              @touchend.prevent="sceneUp($event, goods)"
-             :src="goods.img | imageFormat" v-for="goods in scene_list"
+             :src="goods.goods.img | imageFormat" v-for="goods in scene_list"
              :style="{'transform': `translate3d(${goods.x}px, ${goods.y}px, 0) scale3d(${goods.scale}, ${goods.scale}, 1) rotateZ(${goods.angle}deg)`, 'zIndex': goods.sort}"
              :class="{'current': select_goods&&select_goods.goods_id === goods.goods_id}"
         >
@@ -53,21 +53,35 @@
 </template>
 <script>
   import vHeader from './components/header.vue'
-  import {createUserMatch, getTopCategory, getCategoryGoods} from '../api/api'
+  import {createUserMatch, getTopCategory, getCategoryGoods, getMatchDetail} from '../api/api'
   export default {
     components: {
       vHeader
     },
     created () {
+      // 判断再次搭配
+      if (this.$route.query.match_id) {
+        let params = {
+          match_id: this.$route.query.match_id
+        }
+        getMatchDetail(params).then(data => {
+          if (data.success === 1) {
+            this.scene_list = data.data.list
+          }
+        })
+      }
+      // 获取分类
       getTopCategory().then(data => {
         if (data.success === 1) {
           this.nav_list = data.data.list
           this.getCategoryGoods(this.nav_list[0].category_id)
         }
       })
+      // 缩放
       this.$on('onScale', (goods, scale) => {
         goods.scale += scale
       })
+      // 旋转
       this.$on('onRotate', (goods, angle) => {
         goods.angle += angle
       })
@@ -177,7 +191,9 @@
         if (goods.current) {
           let goodsObj = {
             goods_id: goods.goods_id,
-            img: goods.img,
+            goods: {
+              img: goods.img
+            },
             x: 0,
             y: 0,
             scale: 1,
@@ -195,13 +211,11 @@
         let img = new Image()
         img.src = '/static/images/fittingbg.jpg'
         let base64Img = this.getBase64Image(img)
-        // let blobImg = this.dataURLtoBlob(base64Img)
         let params = {
           user_id: sessionStorage.getItem('user_id'),
           jsonStrGoods: JSON.stringify(this.scene_list),
           base64Img: base64Img
         }
-        // alert(JSON.stringify(params))
         createUserMatch(params)
       },
       getCategoryGoods (id) {
@@ -282,17 +296,6 @@
         cxt.drawImage(img, 0, 0, img.width, img.height)
         let ext = img.src.substring(img.src.lastIndexOf('.') + 1).toLowerCase()
         return canvas.toDataURL('image/' + ext)
-      },
-      dataURLtoBlob (dataurl) {
-        let arr = dataurl.split(',')
-        let mime = arr[0].match(/:(.*?);/)[1]
-        let bstr = atob(arr[1])
-        let n = bstr.length
-        let u8arr = new Uint8Array(n)
-        while (n--) {
-          u8arr[n] = bstr.charCodeAt(n)
-        }
-        return new Blob([u8arr], {type: mime})
       }
     }
   }

@@ -1,30 +1,17 @@
 <template>
-  <div id="user-fitting">
+  <div id="user-fitting" v-infinite-scroll="getMyMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
     <div class="fitting-list">
-      <div class="item">
+      <div class="item" v-for="fitting in fitting_list">
         <div class="image-block">
-          <v-image source="/static/images/QZ1.png" size="contain"></v-image>
+          <v-image :source="fitting.img | imageFormat" size="contain"></v-image>
         </div>
         <div class="footer-block">
-          <div class="nav-group">
+          <router-link class="nav-group" :to="{name: 'fitting-detail', params: {match_id: fitting.match_id}}">
             <i class="iconfont icon-xiangqing"></i>&nbsp;&nbsp;详情
-          </div>
-          <div class="nav-group">
+          </router-link>
+          <router-link class="nav-group" :to="{name: 'fitting', query: {match_id: fitting.match_id}}">
             <i class="iconfont icon-dapei"></i>&nbsp;&nbsp;设计
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="image-block">
-          <v-image source="/static/images/QZ1.png" size="contain"></v-image>
-        </div>
-        <div class="footer-block">
-          <div class="nav-group">
-            <i class="iconfont icon-xiangqing"></i>&nbsp;&nbsp;详情
-          </div>
-          <div class="nav-group">
-            <i class="iconfont icon-dapei"></i>&nbsp;&nbsp;设计
-          </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -33,11 +20,32 @@
 <script>
   import {getMyMatchList} from '../api/api'
   export default {
-    created () {
-      let params = {
-        user_id: sessionStorage.getItem('user_id')
+    data () {
+      return {
+        fitting_list: [],
+        busy: false,
+        page_num: 4,
+        page_no: 1
       }
-      getMyMatchList(params)
+    },
+    methods: {
+      getMyMatchList () {
+        let params = {
+          user_id: sessionStorage.getItem('user_id'),
+          page_num: this.page_num,
+          page_no: this.page_no
+        }
+        this.busy = true
+        getMyMatchList(params).then((data) => {
+          if (data.success === 1) {
+            if (this.page_no <= data.data.pageTotal) {
+              this.fitting_list.push(...data.data.list)
+              this.page_no ++
+              this.busy = false
+            }
+          }
+        })
+      }
     }
   }
 </script>
