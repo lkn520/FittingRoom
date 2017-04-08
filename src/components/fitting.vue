@@ -216,7 +216,9 @@
           jsonStrGoods: JSON.stringify(this.scene_list),
           base64Img: base64Img
         }
-        createUserMatch(params)
+        createUserMatch(params).then(data => {
+          this.$message(data.desc)
+        })
       },
       getCategoryGoods (id) {
         let params = {

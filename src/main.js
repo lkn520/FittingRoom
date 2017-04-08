@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store/store'
 import infiniteScroll from 'vue-infinite-scroll'
+import utils from './utils'
 
 // css
 import './assets/font/iconfont.css'
@@ -12,6 +13,7 @@ import './assets/reset.css'
 
 import image from './components/components/image.vue'
 
+Vue.use(utils)
 Vue.use(infiniteScroll)
 
 Vue.component('v-image', image)

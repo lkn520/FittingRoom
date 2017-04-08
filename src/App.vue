@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{'mb-footer': isShowFooter}">
+  <div id="body" :class="{'mb-footer': isShowFooter}">
     <router-view></router-view>
     <v-footer v-show="isShowFooter" />
   </div>
