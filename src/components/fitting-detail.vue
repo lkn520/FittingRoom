@@ -15,7 +15,9 @@
             <p class="name">{{goods.goods.title}}</p>
             <p class="price">{{goods.goods.selling_price | priceFormat}}<s>{{goods.goods.original_price | priceFormat}}</s></p>
           </div>
-          <router-link class="goods-link" :to="{name: 'goods', params: {goods_id: goods.goods.goods_id}}">详情</router-link>
+          <div class="goods-link">
+            <router-link :to="{name: 'goods', params: {goods_id: goods.goods.goods_id}}">详情</router-link>
+          </div>
         </div>
       </div>
     </div>

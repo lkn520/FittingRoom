@@ -3,14 +3,17 @@
     <v-header title="搭配"></v-header>
     <div class="fitting-block">
       <div class="scene" v-if="scene_list.length">
-        <img class="goods-img"
-             @touchstart.prevent="sceneDown($event, goods)"
-             @touchmove.prevent="sceneMove($event, goods)"
-             @touchend.prevent="sceneUp($event, goods)"
-             :src="goods.goods.img | imageFormat" v-for="goods in scene_list"
-             :style="{'transform': `translate3d(${goods.x}px, ${goods.y}px, 0) scale3d(${goods.scale}, ${goods.scale}, 1) rotateZ(${goods.angle}deg)`, 'zIndex': goods.sort}"
-             :class="{'current': select_goods&&select_goods.goods_id === goods.goods_id}"
-        >
+        <div class="scene-goods">
+          <img class="goods-img"
+               crossorigin="anonymous"
+               @touchstart.prevent="sceneDown($event, goods)"
+               @touchmove.prevent="sceneMove($event, goods)"
+               @touchend.prevent="sceneUp($event, goods)"
+               :src="goods.goods.img | imageFormat" v-for="goods in scene_list"
+               :style="{'transform': `translate3d(${goods.x}px, ${goods.y}px, 0) scale3d(${goods.scale}, ${goods.scale}, 1) rotateZ(${goods.angle}deg)`, 'zIndex': goods.sort}"
+               :class="{'current': select_goods&&select_goods.goods_id === goods.goods_id}"
+          >
+        </div>
         <div class="save-btn" @click="saveFitting()"><i class="iconfont icon-baocun"></i>&nbsp;保存</div>
         <div class="edit-group">
           <div class="edit-item" @click="clearScene()">
@@ -54,6 +57,7 @@
 <script>
   import vHeader from './components/header.vue'
   import {createUserMatch, getTopCategory, getCategoryGoods, getMatchDetail} from '../api/api'
+  import Html2canvas from 'html2canvas'
   export default {
     components: {
       vHeader
@@ -208,16 +212,23 @@
         }
       },
       saveFitting () {
-        let img = new Image()
-        img.src = '/static/images/fittingbg.jpg'
-        let base64Img = this.getBase64Image(img)
-        let params = {
-          user_id: sessionStorage.getItem('user_id'),
-          jsonStrGoods: JSON.stringify(this.scene_list),
-          base64Img: base64Img
-        }
-        createUserMatch(params).then(data => {
-          this.$message(data.desc)
+        let _this = this
+        let base64Img = ''
+        this.select_goods = null
+        Html2canvas(document.querySelector('.scene-goods'), {
+          allowTaint: true,
+          taintTest: false,
+          onrendered (canvas) {
+            base64Img = canvas.toDataURL()
+            let params = {
+              user_id: sessionStorage.getItem('user_id'),
+              jsonStrGoods: JSON.stringify(_this.scene_list),
+              base64Img
+            }
+            createUserMatch(params).then(data => {
+              _this.$message(data.desc)
+            })
+          }
         })
       },
       getCategoryGoods (id) {

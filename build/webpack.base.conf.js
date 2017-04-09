@@ -18,6 +18,9 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  externals: {
+    'html2canvas': 'html2canvas'
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
