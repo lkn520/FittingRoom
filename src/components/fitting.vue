@@ -186,30 +186,32 @@
         }
       },
       selectGoods (goods) {
-        if (typeof goods.current === 'undefined') {
-          this.$set(goods, 'current', true)
-        } else {
-          goods.current = !goods.current
+        if (this.isPullUp) {
+          if (typeof goods.current === 'undefined') {
+            this.$set(goods, 'current', true)
+          } else {
+            goods.current = !goods.current
+          }
+          if (goods.current) {
+            let goodsObj = {
+              goods_id: goods.goods_id,
+              goods: {
+                img: goods.img
+              },
+              x: 0,
+              y: 0,
+              scale: 1,
+              angle: 0,
+              sort: this.sort++
+            }
+            this.scene_list.push(goodsObj)
+          } else {
+            this.scene_list = this.scene_list.filter((item) => {
+              return item.goods_id !== goods.goods_id
+            })
+          }
         }
         this.isPullUp = true
-        if (goods.current) {
-          let goodsObj = {
-            goods_id: goods.goods_id,
-            goods: {
-              img: goods.img
-            },
-            x: 0,
-            y: 0,
-            scale: 1,
-            angle: 0,
-            sort: this.sort++
-          }
-          this.scene_list.push(goodsObj)
-        } else {
-          this.scene_list = this.scene_list.filter((item) => {
-            return item.goods_id !== goods.goods_id
-          })
-        }
       },
       saveFitting () {
         let _this = this
