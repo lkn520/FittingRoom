@@ -35,6 +35,20 @@ Vue.filter('upperCase', (value) => {
   return value.toUpperCase()
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!sessionStorage.getItem('user_id')) {
+      next({
+        name: 'signin'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
 /* eslint-disable no-new */
 let vm = new Vue({
   el: '#app',

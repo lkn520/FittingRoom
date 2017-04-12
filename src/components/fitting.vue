@@ -83,11 +83,11 @@
       })
       // 缩放
       this.$on('onScale', (goods, scale) => {
-        goods.scale += scale
+        goods.scale = scale + (+goods.scale)
       })
       // 旋转
       this.$on('onRotate', (goods, angle) => {
-        goods.angle += angle
+        goods.angle = angle + (+goods.angle)
       })
     },
     data () {

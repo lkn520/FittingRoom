@@ -45,12 +45,12 @@
                 name: 'user'
               })
             } else {
-              alert(data.desc)
+              this.$message(data.desc)
             }
           })
         } else {
           userReg(params).then(data => {
-            console.log(data)
+            this.$message(data.desc)
           })
         }
       }
