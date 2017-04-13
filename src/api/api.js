@@ -9,7 +9,7 @@ export const getCarousel = params => axios.get(`${DOMAIN}/Web/api?act=getBannerL
 // 登录
 export const userLogin = params => axios.get(`${DOMAIN}/Web/api?act=login`, {params: params}).then(res => res.data)
 
-// 注册
+// 注册 /Web/api?act=register
 export const userReg = params => axios.get(`${DOMAIN}/Web/api?act=register`, {params: params}).then(res => res.data)
 
 // 首页推荐 /Web/api?act=getHomeRecommend

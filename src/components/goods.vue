@@ -38,7 +38,7 @@
           <div class="image-block">
             <v-image :source="item.img | imageFormat" size="contain"></v-image>
           </div>
-          <div class="name">{{item.brand_name}}</div>
+          <div class="title">{{item.title}}</div>
           <div class="price">{{item.selling_price | priceFormat}}</div>
         </router-link>
       </div>
@@ -79,6 +79,8 @@
         toggleCollect(params).then(data => {
           if (data.success === 1) {
             this.goods_detail.is_collect = data.data.is_collect
+          } else {
+            this.$message(data.desc)
           }
         })
       },

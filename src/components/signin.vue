@@ -9,7 +9,7 @@
         <i class="iconfont icon-denglutouxiang"></i>
       </div>
       <div class="username-input">
-        <input type="text" placeholder="请输入账号" v-model="username">
+        <input type="text" placeholder="请输入账号" v-model="phone">
       </div>
       <div class="password-input">
         <input type="password" placeholder="请输入密码" v-model="password">
@@ -27,14 +27,14 @@
     data () {
       return {
         isSignin: true,
-        username: '',
+        phone: '',
         password: ''
       }
     },
     methods: {
       submit () {
         let params = {
-          name: this.username,
+          phone: this.phone,
           password: this.password
         }
         if (this.isSignin) {
@@ -50,7 +50,14 @@
           })
         } else {
           userReg(params).then(data => {
-            this.$message(data.desc)
+            if (data.success === 1) {
+              sessionStorage.setItem('user_id', data.data.user_id)
+              this.$router.push({
+                name: 'user'
+              })
+            } else {
+              this.$message(data.desc)
+            }
           })
         }
       }

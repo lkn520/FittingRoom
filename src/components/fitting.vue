@@ -3,7 +3,7 @@
     <v-header title="搭配"></v-header>
     <div class="fitting-block">
       <div class="scene" v-if="scene_list.length">
-        <div class="scene-goods">
+        <div class="scene-goods" @click.self.prevent.stop="select_goods = null">
           <img class="goods-img"
                crossorigin="anonymous"
                @touchstart.prevent="sceneDown($event, goods)"
@@ -14,20 +14,22 @@
                :class="{'current': select_goods&&select_goods.goods_id === goods.goods_id}"
           >
         </div>
-        <div class="save-btn" @click="saveFitting()"><i class="iconfont icon-baocun"></i>&nbsp;保存</div>
-        <div class="edit-group">
-          <div class="edit-item" @click="clearScene()">
-            清空
+        <div class="edit-block">
+          <div class="edit-group">
+            <div class="edit-item" @click="clearScene()">
+              清空
+            </div>
+            <div class="edit-item" @click="upGoods()">
+              <i class="iconfont icon-shang"></i>向上
+            </div>
+            <div class="edit-item" @click="downGoods()">
+              <i class="iconfont icon-xia"></i>向下
+            </div>
+            <div class="edit-item" @click="delGoods()">
+              <i class="iconfont icon-qingkong"></i>删除
+            </div>
           </div>
-          <div class="edit-item" @click="upGoods()">
-            <i class="iconfont icon-shang"></i>向上
-          </div>
-          <div class="edit-item" @click="downGoods()">
-            <i class="iconfont icon-xia"></i>向下
-          </div>
-          <div class="edit-item" @click="delGoods()">
-            <i class="iconfont icon-qingkong"></i>删除
-          </div>
+          <div class="save-btn" @click="saveFitting()"><i class="iconfont icon-baocun"></i>&nbsp;保存</div>
         </div>
       </div>
       <div class="scene-empty" v-else>

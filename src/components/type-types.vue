@@ -3,7 +3,7 @@
     <router-link
       class="item"
       v-for="item in category_list"
-      :style="{backgroundImage: 'url(http://www.pokerlady.com.cn'+item.img+')'}"
+      :style="{backgroundImage: 'url('+item.img+')'}"
       :to="{name: 'type-goods', params: {id: item.category_id, title: item.name}}"
       :key="item.category_id">
       <div class="names">

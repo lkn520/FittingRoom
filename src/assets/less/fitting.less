@@ -1,15 +1,12 @@
 @import 'utils';
 .fitting-block {
   .scene {
-    position: relative;
-    width: 6.8rem;
-    height: 7.6rem;
-    margin: 0.1rem auto;
-    overflow: hidden;
+    width: 100%;
     .scene-goods {
-      position: absolute;
+      position: relative;
       width: 100%;
-      height: 100%;
+      height: 7.2rem;
+      overflow: hidden;
       .goods-img {
         box-sizing: border-box;
         position: absolute;
@@ -22,26 +19,25 @@
         }
       }
     }
-
-    .save-btn {
+    .edit-block {
       display: flex;
-      align-items: center;
-      position: absolute;
-      bottom: 0.2rem;
-      right: 0.4rem;
-      color: @highlight;
-    }
-    .edit-group {
-      position: absolute;
-      bottom: 0.2rem;
-      left: 0.1rem;
-      display: flex;
-      .edit-item {
-        margin: 0 0.1rem;
+      justify-content: space-between;
+      margin: 0 0.4rem;
+      .save-btn {
         display: flex;
         align-items: center;
+        color: @highlight;
+      }
+      .edit-group {
+        display: flex;
+        .edit-item {
+          margin: 0 0.1rem;
+          display: flex;
+          align-items: center;
+        }
       }
     }
+
   }
   .scene-empty {
     width: 6.7rem;

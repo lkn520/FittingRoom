@@ -24,7 +24,7 @@ Vue.config.productionTip = false
 
 // 过滤器
 Vue.filter('imageFormat', (value) => {
-  return global.DOMAIN + value
+  return value
 })
 
 Vue.filter('priceFormat', (value) => {
