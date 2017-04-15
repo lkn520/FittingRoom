@@ -39,7 +39,7 @@ export const getMatchDetail = params => axios.get(`${DOMAIN}/Web/api?act=getMatc
 // 创建搭配 /Web/api?act=createUserMatch
 export const createUserMatch = params => axios.post(`${DOMAIN}/Web/api?act=createUserMatch`, qs.stringify(params)).then(res => res.data)
 
-// 搭配详情 /Web/api?act=getGoodsDetail
+// 商品详情 /Web/api?act=getGoodsDetail
 export const getGoodsDetail = params => axios.get(`${DOMAIN}/Web/api?act=getGoodsDetail`, {params: params}).then(res => res.data)
 
 // 精选搭配 /Web/api?act=getChoicenessMatchList

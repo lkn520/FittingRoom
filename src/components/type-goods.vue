@@ -13,9 +13,9 @@
           <div class="left" @click.prevent="toggleCollect(item)" v-else>
             <i class="iconfont icon-weishoucang"></i>&nbsp;收藏
           </div>
-          <div class="right">
+          <router-link class="right" :to="{name: 'fitting', query: {goods_id: item.goods_id}}">
             <i class="iconfont icon-dapei"></i>&nbsp;搭配
-          </div>
+          </router-link>
         </div>
       </router-link>
     </div>

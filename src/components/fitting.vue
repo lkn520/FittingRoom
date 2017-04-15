@@ -58,7 +58,7 @@
 </template>
 <script>
   import vHeader from './components/header.vue'
-  import {createUserMatch, getTopCategory, getCategoryGoods, getMatchDetail} from '../api/api'
+  import {createUserMatch, getTopCategory, getCategoryGoods, getMatchDetail, getGoodsDetail} from '../api/api'
   import Html2canvas from 'html2canvas'
   export default {
     components: {
@@ -73,6 +73,26 @@
         getMatchDetail(params).then(data => {
           if (data.success === 1) {
             this.scene_list = data.data.list
+          }
+        })
+      } else if (this.$route.query.goods_id) {
+        let params = {
+          goods_id: this.$route.query.goods_id
+        }
+        getGoodsDetail(params).then(data => {
+          if (data.success === 1) {
+            let goodsObj = {
+              goods_id: data.data.goods_id,
+              goods: {
+                img: data.data.img
+              },
+              x: 0,
+              y: 0,
+              scale: 1,
+              angle: 0,
+              sort: this.sort++
+            }
+            this.scene_list.push(goodsObj)
           }
         })
       }
@@ -189,12 +209,7 @@
       },
       selectGoods (goods) {
         if (this.isPullUp) {
-          if (typeof goods.current === 'undefined') {
-            this.$set(goods, 'current', true)
-          } else {
-            goods.current = !goods.current
-          }
-          if (goods.current) {
+          if (!goods.current) {
             let goodsObj = {
               goods_id: goods.goods_id,
               goods: {
@@ -212,8 +227,9 @@
               return item.goods_id !== goods.goods_id
             })
           }
+        } else {
+          this.isPullUp = true
         }
-        this.isPullUp = true
       },
       saveFitting () {
         let _this = this
@@ -262,14 +278,12 @@
       },
       clearScene () {
         this.scene_list = []
-        this.goodsListInit()
       },
       delGoods () {
         if (this.select_goods) {
           this.scene_list = this.scene_list.filter(item => {
             return item.goods_id !== this.select_goods.goods_id
           })
-          this.goodsListInit()
         }
         this.select_goods = null
       },
@@ -313,6 +327,11 @@
         cxt.drawImage(img, 0, 0, img.width, img.height)
         let ext = img.src.substring(img.src.lastIndexOf('.') + 1).toLowerCase()
         return canvas.toDataURL('image/' + ext)
+      }
+    },
+    watch: {
+      scene_list () {
+        this.goodsListInit()
       }
     }
   }
