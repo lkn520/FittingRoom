@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="goods-page">
     <v-header v-if="goods_detail" :title="goods_detail.brand_name"></v-header>
     <div v-if="goods_detail">
       <div class="goods-detail">
@@ -41,6 +41,16 @@
           <div class="title">{{item.title}}</div>
           <div class="price">{{item.selling_price | priceFormat}}</div>
         </router-link>
+      </div>
+    </div>
+    <div class="payment-btn" @click="is_tkl = true">立即购买</div>
+    <div class="tkl" v-if="goods_detail" v-show="is_tkl" @click.self="is_tkl = false">
+      <div class="tkl-block">
+        <div class="back" @click.self="is_tkl = false">返回</div>
+        <div class="tkl-group">
+          <p class="tkl-text">{{goods_detail.tkl}}</p>
+          <p class="tkl-tips">长按复制,打开淘宝/天猫APP</p>
+        </div>
       </div>
     </div>
     <div id="top" @click="goToTop()">
@@ -122,7 +132,8 @@
         page_num: 4,
         page_no: 1,
         choiceness_list: [],
-        busy: false
+        busy: false,
+        is_tkl: false
       }
     }
   }

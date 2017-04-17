@@ -1,4 +1,7 @@
 @import 'utils.less';
+.goods-page {
+  margin-bottom: 0.88rem;
+}
 .goods-detail {
   position: relative;
   .image-block {
@@ -141,5 +144,61 @@
   .iconfont {
     font-size: 0.62rem;
     color: @shallow;
+  }
+}
+.payment-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  line-height: 0.88rem;
+  border-top: 1px solid @deepBorder;
+  background-color: #fff;
+  text-align: center;
+  color: @highlight;
+  font-size: 0.34rem;
+  z-index: 100;
+}
+.tkl {
+  position: fixed;
+  z-index: 102;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  .tkl-block {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4.0rem;
+    background-color: #fff;
+    .tkl-text {
+      width: 5.36rem;
+      text-align: center;
+      border: 1px solid @deepBorder;
+      line-height: 0.76rem;
+      height: 0.76rem;
+      font-size: 0.34rem;
+      user-select: none;
+    }
+    .tkl-tips {
+      text-align: center;
+      color: @shallow;
+      margin-top: 0.32rem;
+    }
+    .back {
+      position: absolute;
+      top: 0.34rem;
+      right: 0.4rem;
+      color: @highlight;
+      font-size: 0.32rem;
+    }
   }
 }
