@@ -18,6 +18,16 @@
         <span class="signin" v-text="isSignin? '登录':'注册'" @click="submit"></span>
         <span class="signup" v-text="isSignin? '注册':'登录 '" @click="isSignin = !isSignin"></span>
       </div>
+      <div class="wx-signin">
+        <div class="title">
+          <h2>微信授权登录</h2>
+        </div>
+        <div class="wx-btn">
+          <a href="http://b.pokerlady.com.cn/M/wxLogin">
+            <i class="iconfont icon-weixin"></i>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </template>

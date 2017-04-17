@@ -36,6 +36,9 @@ Vue.filter('upperCase', (value) => {
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.query.user_id) {
+    sessionStorage.setItem('user_id', to.query.user_id)
+  }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!sessionStorage.getItem('user_id')) {
       next({
