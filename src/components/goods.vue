@@ -10,7 +10,7 @@
           <p class="goods-name">{{goods_detail.title}}</p>
           <p class="goods-price">{{goods_detail.selling_price | priceFormat}}<s>{{goods_detail.original_price | priceFormat}}</s></p>
         </div>
-        <div class="goods-collect" v-if="goods_detail.is_collect == 0" @click="toggleCollect">
+        <div class="goods-collect" v-if="goods_detail.is_collect === 0" @click="toggleCollect">
           <i class="iconfont icon-weishoucang"></i>&nbsp;收藏
         </div>
         <div class="goods-collect" v-else @click="toggleCollect">
@@ -84,7 +84,7 @@
         let params = {
           type: 1,
           concrete_id: this.goods_detail.goods_id,
-          user_id: sessionStorage.getItem('user_id')
+          user_id: localStorage.getItem('user_id')
         }
         toggleCollect(params).then(data => {
           if (data.success === 1) {
@@ -116,7 +116,7 @@
         let goodsId = typeof arguments[0] === 'undefined' ? this.$route.params.goods_id : arguments[0]
         let params = {
           goods_id: goodsId,
-          user_id: sessionStorage.getItem('user_id')
+          user_id: localStorage.getItem('user_id')
         }
         getGoodsDetail(params).then(data => {
           if (data.success === 1) {

@@ -37,7 +37,7 @@
         let params = {
           page_num: this.page_num,
           page_no: this.page_no,
-          user_id: sessionStorage.getItem('user_id')
+          user_id: localStorage.getItem('user_id')
         }
         this.busy = true
         getMatchList(params).then(data => {
@@ -53,7 +53,7 @@
       toggleCollect (match) {
         let params = {
           type: 2,
-          user_id: sessionStorage.getItem('user_id'),
+          user_id: localStorage.getItem('user_id'),
           concrete_id: match.match_id
         }
         toggleCollect(params).then(data => {

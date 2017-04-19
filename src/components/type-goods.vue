@@ -42,7 +42,7 @@
           category: this.$route.params.id,
           page_num: this.page_num,
           page_no: this.page_no,
-          user_id: sessionStorage.getItem('user_id')
+          user_id: localStorage.getItem('user_id')
         }
         this.busy = true
         getCategoryGoods(params).then(data => {
@@ -58,7 +58,7 @@
       toggleCollect (goods) {
         let params = {
           type: 1,
-          user_id: sessionStorage.getItem('user_id'),
+          user_id: localStorage.getItem('user_id'),
           concrete_id: goods.goods_id
         }
         toggleCollect(params).then(data => {

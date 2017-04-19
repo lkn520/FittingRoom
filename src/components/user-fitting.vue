@@ -31,7 +31,7 @@
     methods: {
       getMyMatchList () {
         let params = {
-          user_id: sessionStorage.getItem('user_id'),
+          user_id: localStorage.getItem('user_id'),
           page_num: this.page_num,
           page_no: this.page_no
         }

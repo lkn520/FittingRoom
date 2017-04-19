@@ -241,7 +241,7 @@
           onrendered (canvas) {
             base64Img = canvas.toDataURL()
             let params = {
-              user_id: sessionStorage.getItem('user_id'),
+              user_id: localStorage.getItem('user_id'),
               jsonStrGoods: JSON.stringify(_this.scene_list),
               base64Img
             }
