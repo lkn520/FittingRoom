@@ -2,6 +2,7 @@
   <div id="user-fitting" v-infinite-scroll="getMyMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
     <div class="fitting-list">
       <div class="item" v-for="fitting in fitting_list">
+        <i class="iconfont icon-yishoucang fitting-collect"></i>
         <div class="image-block">
           <v-image :source="fitting.img | imageFormat" size="contain"></v-image>
         </div>

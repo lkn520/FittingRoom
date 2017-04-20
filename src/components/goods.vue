@@ -54,7 +54,7 @@
       </div>
     </div>
     <div id="top" @click="goToTop()">
-      <i class="iconfont icon-shang"></i>
+      <i class="iconfont icon-shang-copy"></i>
     </div>
   </div>
 </template>

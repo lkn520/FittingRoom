@@ -8,9 +8,9 @@
         <div class="footer-block">
           <div class="left">
             <div class="logo">
-              <v-image source="/static/images/QZ1.png"></v-image>
+              <v-image :source="goods.brand.img" size="contain"></v-image>
             </div>
-            <span class="text">ABCDEFGH</span>
+            <span class="text">{{goods.brand.name}}</span>
           </div>
           <div class="right">
             <i class="iconfont icon-yishoucang"></i>
