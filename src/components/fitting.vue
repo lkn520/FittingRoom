@@ -245,6 +245,9 @@
               jsonStrGoods: JSON.stringify(_this.scene_list),
               base64Img
             }
+            if (_this.$route.query.collect === 0 && _this.$route.query.match_id) {
+              params.match_id = _this.$route.query.match_id
+            }
             createUserMatch(params).then(data => {
               _this.$message(data.desc)
             })
@@ -318,15 +321,6 @@
             [this.scene_list[i - 1].sort, this.scene_list[i].sort] = [this.scene_list[i].sort, this.scene_list[i - 1].sort]
           }
         }
-      },
-      getBase64Image (img) {
-        let canvas = document.createElement('canvas')
-        canvas.width = img.width
-        canvas.height = img.height
-        let cxt = canvas.getContext('2d')
-        cxt.drawImage(img, 0, 0, img.width, img.height)
-        let ext = img.src.substring(img.src.lastIndexOf('.') + 1).toLowerCase()
-        return canvas.toDataURL('image/' + ext)
       }
     },
     watch: {

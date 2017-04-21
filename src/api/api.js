@@ -36,8 +36,8 @@ export const toggleCollect = params => axios.get(`${DOMAIN}/Web/api?act=collect`
 // 搭配详情 /Web/api?act=getMatchDetail
 export const getMatchDetail = params => axios.get(`${DOMAIN}/Web/api?act=getMatchDetail`, {params: params}).then(res => res.data)
 
-// 创建搭配 /Web/api?act=createUserMatch
-export const createUserMatch = params => axios.post(`${DOMAIN}/Web/api?act=createUserMatch`, qs.stringify(params)).then(res => res.data)
+// 创建搭配 /Web/api?act=createOrUpdateUserMatch
+export const createUserMatch = params => axios.post(`${DOMAIN}/Web/api?act=createOrUpdateUserMatch`, qs.stringify(params)).then(res => res.data)
 
 // 商品详情 /Web/api?act=getGoodsDetail
 export const getGoodsDetail = params => axios.get(`${DOMAIN}/Web/api?act=getGoodsDetail`, {params: params}).then(res => res.data)
