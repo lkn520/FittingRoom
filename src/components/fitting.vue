@@ -41,6 +41,12 @@
       <div class="icon-arrow" :class="{'pull-up': isPullUp}" @click="isPullUp = !isPullUp"><i class="iconfont icon-zhankai"></i></div>
       <div class="goods-nav">
         <div class="nav-list">
+          <div class="item" :class="{'active': 'r' == category_id}" @click="getCategoryGoods('r')">
+            <span>推荐</span>
+          </div>
+          <div class="item" :class="{'active': 'c' == category_id}" @click="getCategoryGoods('c')">
+            <span>收藏</span>
+          </div>
           <div class="item" :class="{'active': item.category_id == category_id}" v-for="item in nav_list" @click="getCategoryGoods(item.category_id)">
             <span>{{item.name}}</span>
           </div>
@@ -263,6 +269,8 @@
           if (data.success === 1) {
             this.goods_list = data.data.list
             this.goodsListInit()
+          } else {
+            this.goods_list = []
           }
         })
       },

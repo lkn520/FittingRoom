@@ -2,7 +2,8 @@
   <div id="user-fitting" v-infinite-scroll="getMyMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
     <div class="fitting-list">
       <div class="item" v-for="fitting in fitting_list">
-        <i class="iconfont icon-yishoucang fitting-collect" v-show="fitting.is_my_collect === 1"></i>
+        <i class="iconfont icon-weishoucang fitting-collect" v-show="fitting.is_my_collect === 1 && fitting.is_collect === 0" @click="toggleCollect(fitting)"></i>
+        <i class="iconfont icon-yishoucang fitting-collect" v-show="fitting.is_my_collect === 1 && fitting.is_collect === 1" @click="toggleCollect(fitting)"></i>
         <div class="image-block">
           <v-image :source="fitting.img | imageFormat" size="contain"></v-image>
         </div>
@@ -19,7 +20,7 @@
   </div>
 </template>
 <script>
-  import {getMyMatchList} from '../api/api'
+  import {getMyMatchList, toggleCollect} from '../api/api'
   export default {
     data () {
       return {
@@ -40,10 +41,25 @@
         getMyMatchList(params).then((data) => {
           if (data.success === 1) {
             if (this.page_no <= data.data.pageTotal) {
+              data.data.list.map(n => {
+                n.is_collect = n.is_my_collect
+              })
               this.fitting_list.push(...data.data.list)
               this.page_no ++
               this.busy = false
             }
+          }
+        })
+      },
+      toggleCollect (match) {
+        let params = {
+          type: 2,
+          user_id: localStorage.getItem('user_id'),
+          concrete_id: match.match_id
+        }
+        toggleCollect(params).then(data => {
+          if (data.success === 1) {
+            match.is_collect = data.data.is_collect
           }
         })
       }
