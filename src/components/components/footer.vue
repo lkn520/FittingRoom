@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+   <div class="footer" style="z-index: 100;">
     <router-link class="item" :to="{name: 'home'}" exact>
       <i class="iconfont icon-shouye"></i>
       <span class="text">首页</span>
