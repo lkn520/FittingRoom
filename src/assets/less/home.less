@@ -47,14 +47,19 @@
         border-right: 1px solid @shallowBorder;
       }
       .goods-image {
+        box-sizing: border-box;
+        padding: 0.1rem;
         width: 2.2rem;
         height: 2.2rem;
         margin: 0.1rem auto 0.06rem;
       }
       .goods-text {
+        .text-overflow();
+        margin: 0 0.6rem;
         text-align: center;
         line-height: 0.30rem;
         font-size: 0.24rem;
+
       }
     }
   }

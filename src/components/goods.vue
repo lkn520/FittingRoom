@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-page">
+  <div class="goods-page" v-infinite-scroll="getChoicenessMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="20">
     <v-header v-if="goods_detail" :title="goods_detail.brand_name"></v-header>
     <div v-if="goods_detail">
       <div class="goods-detail">
@@ -33,7 +33,7 @@
       <div class="recommend-header">
         <span>精选搭配</span>
       </div>
-      <div class="recommend-list" v-infinite-scroll="getChoicenessMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="100">
+      <div class="recommend-list" >
         <router-link class="item" v-for="item in choiceness_list" :to="{name: 'goods', params: {goods_id: item.goods_id}}" :key="item.goods_id" replace>
           <div class="image-block">
             <v-image :source="item.img | imageFormat" size="contain"></v-image>

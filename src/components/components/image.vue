@@ -1,5 +1,5 @@
 <template>
-  <div :style="{backgroundImage: `url(${source})`, backgroundSize: size}" class="image"></div>
+  <div :style='{backgroundImage: imageSource, backgroundSize: size}' class="image"></div>
 </template>
 <script>
   export default {
@@ -10,6 +10,14 @@
       size: {
         default: 'cover',
         type: String
+      }
+    },
+    created () {
+      console.log(this.source)
+    },
+    computed: {
+      imageSource () {
+        return `url('${this.source}')`
       }
     }
   }
