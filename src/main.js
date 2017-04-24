@@ -39,6 +39,9 @@ router.beforeEach((to, from, next) => {
   if (to.query.user_id) {
     localStorage.setItem('user_id', to.query.user_id)
   }
+  if (to.query.brand) {
+    localStorage.setItem('brand', to.query.brand)
+  }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!localStorage.getItem('user_id')) {
       next({

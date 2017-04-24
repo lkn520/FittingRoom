@@ -12,9 +12,6 @@
         type: String
       }
     },
-    created () {
-      console.log(this.source)
-    },
     computed: {
       imageSource () {
         return `url('${this.source}')`

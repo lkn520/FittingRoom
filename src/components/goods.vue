@@ -99,7 +99,8 @@
         let params = {
           goods_id: goodsId,
           page_num: this.page_num,
-          page_no: this.page_no
+          page_no: this.page_no,
+          brand: localStorage.getItem('brand')
         }
         this.busy = true
         getChoicenessMatchList(params).then(data => {

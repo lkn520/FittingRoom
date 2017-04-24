@@ -262,7 +262,8 @@
       },
       getCategoryGoods (id) {
         let params = {
-          category: id
+          category: id,
+          brand: localStorage.getItem('brand')
         }
         this.category_id = id
         getCategoryGoods(params).then(data => {
