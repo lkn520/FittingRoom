@@ -49,7 +49,7 @@
         <div class="back" @click.self="is_tkl = false">返回</div>
         <div class="tkl-group">
           <p class="tkl-text">{{goods_detail.tkl}}</p>
-          <p class="tkl-tips">长按复制,打开淘宝/天猫APP</p>
+          <p class="tkl-tips">长按复制全部,打开淘宝/天猫APP</p>
         </div>
       </div>
     </div>
