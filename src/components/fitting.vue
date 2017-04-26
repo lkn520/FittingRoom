@@ -1,6 +1,8 @@
 <template>
   <div @touchmove.prevent.stop>
-    <v-header title="搭配"></v-header>
+    <v-header title="搭配">
+      <router-link class="user-link" slot="right" :to="{name: 'user'}">我的搭配</router-link>
+    </v-header>
     <div class="fitting-block">
       <div class="scene" v-if="scene_list.length">
         <div class="scene-goods" @click.self.prevent.stop="select_goods = null">

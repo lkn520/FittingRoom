@@ -4,7 +4,9 @@
       <i class="iconfont icon-fanhui" @click="$router.back()"></i>
     </div>
     <h1 class="title">{{title}}</h1>
-    <div class="right"></div>
+    <div class="right">
+      <slot name="right"></slot>
+    </div>
   </div>
 </template>
 <script>
