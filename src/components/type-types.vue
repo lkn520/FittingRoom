@@ -17,7 +17,10 @@
   import {getTopCategory} from '../api/api'
   export default {
     created () {
-      getTopCategory().then(data => {
+      let params = {
+        brand: localStorage.getItem('brand')
+      }
+      getTopCategory(params).then(data => {
         if (data.success === 1) {
           this.category_list = data.data.list
         }

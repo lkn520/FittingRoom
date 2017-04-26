@@ -105,7 +105,7 @@
         })
       }
       // 获取分类
-      getTopCategory().then(data => {
+      getTopCategory({brand: localStorage.getItem('brand')}).then(data => {
         if (data.success === 1) {
           this.nav_list = data.data.list
           this.getCategoryGoods(this.nav_list[0].category_id)
