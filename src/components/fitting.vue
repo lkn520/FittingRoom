@@ -39,22 +39,22 @@
         <p>请选择商品进行搭配</p>
       </div>
     </div>
-    <div class="fitting-goods" :class="{'pull-up-enter': isPullUp}" @touchmove.stop>
-      <div class="icon-arrow" :class="{'pull-up': isPullUp}" @click="isPullUp = !isPullUp"><i class="iconfont icon-zhankai"></i></div>
+    <div class="fitting-goods" :class="{'pull-down-enter': isPullDown}" @touchmove.stop>
+      <div class="icon-arrow" :class="{'pull-up': isPullDown}" @click="isPullDown = !isPullDown"><i class="iconfont icon-zhankai"></i></div>
       <div class="goods-nav">
         <div class="nav-list">
-          <div class="item" :class="{'active': 'r' == category_id}" @click="getCategoryGoods('r')">
+          <div class="item" :class="{'active': 'r' == category_id}" @click="setCategoryGoods('r')">
             <span>推荐</span>
           </div>
-          <div class="item" :class="{'active': 'c' == category_id}" @click="getCategoryGoods('c')">
+          <div class="item" :class="{'active': 'c' == category_id}" @click="setCategoryGoods('c')">
             <span>收藏</span>
           </div>
-          <div class="item" :class="{'active': item.category_id == category_id}" v-for="item in nav_list" @click="getCategoryGoods(item.category_id)">
+          <div class="item" :class="{'active': item.category_id == category_id}" v-for="item in nav_list" @click="setCategoryGoods(item.category_id)">
             <span>{{item.name}}</span>
           </div>
         </div>
       </div>
-      <div class="goods-group">
+      <div class="goods-group" v-infinite-scroll="getCategoryGoods" infinite-scroll-disabled="busy" infinite-scroll-distance="10" infinite-scroll-immediate-check="true">
         <div class="goods-list">
           <div class="item" v-for="goods in goods_list" @click="selectGoods(goods)" :class="{'current': goods.current}">
             <v-image :source="goods.img | imageFormat" size="contain"></v-image>
@@ -108,9 +108,10 @@
       getTopCategory({brand: localStorage.getItem('brand')}).then(data => {
         if (data.success === 1) {
           this.nav_list = data.data.list
-          this.getCategoryGoods(this.nav_list[0].category_id)
         }
       })
+      // 获取分类商品
+      this.setCategoryGoods('r')
       // 缩放
       this.$on('onScale', (goods, scale) => {
         goods.scale = scale + (+goods.scale)
@@ -122,7 +123,7 @@
     },
     data () {
       return {
-        isPullUp: false,
+        isPullDown: true,
         sceneMoveUse: false,
         scene_list: [],
         goods_list: [],
@@ -132,7 +133,10 @@
         category_id: -1,
         sort: 50,
         touchDistance: 0,
-        previousPinchScale: 1
+        previousPinchScale: 1,
+        busy: false,
+        page_no: 1,
+        page_num: 20
       }
     },
     methods: {
@@ -216,7 +220,7 @@
         }
       },
       selectGoods (goods) {
-        if (this.isPullUp) {
+        if (!this.isPullDown) {
           if (!goods.current) {
             let goodsObj = {
               goods_id: goods.goods_id,
@@ -236,7 +240,7 @@
             })
           }
         } else {
-          this.isPullUp = true
+          this.isPullDown = false
         }
       },
       saveFitting () {
@@ -262,17 +266,29 @@
           }
         })
       },
-      getCategoryGoods (id) {
+      setCategoryGoods (id) {
+        this.category_id = id
+        this.page_no = 1
+        this.goods_list = []
+        this.getCategoryGoods()
+      },
+      getCategoryGoods () {
         let params = {
-          category: id,
+          category: this.category_id,
+          page_num: this.page_num,
+          page_no: this.page_no,
           user_id: localStorage.getItem('user_id'),
           brand: localStorage.getItem('brand')
         }
-        this.category_id = id
+        this.busy = true
         getCategoryGoods(params).then(data => {
           if (data.success === 1) {
-            this.goods_list = data.data.list
-            this.goodsListInit()
+            if (this.page_no <= data.data.pageTotal) {
+              this.page_no++
+              this.goods_list.push(...data.data.list)
+              this.goodsListInit()
+              this.busy = false
+            }
           } else {
             this.goods_list = []
           }
@@ -344,7 +360,7 @@
 </script>
 <style lang="less">
   @import '../assets/less/fitting.less';
-  .pull-up-enter {
-    transform: translateY(-8.04rem);
+  .pull-down-enter {
+    transform: translateY(8.04rem);
   }
 </style>

@@ -44,9 +44,7 @@ router.beforeEach((to, from, next) => {
   }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!localStorage.getItem('user_id')) {
-      next({
-        name: 'signin'
-      })
+      next({name: 'signin'})
     } else {
       next()
     }

@@ -32,7 +32,8 @@
 <script>
   import { Swipe, SwipeItem } from 'vue-swipe'
   import 'vue-swipe/dist/vue-swipe.css'
-  import {getCarousel, getBrandRecommendCommodity} from '../api/api'
+  import wxSDK from 'weixin-js-sdk'
+  import {getCarousel, getBrandRecommendCommodity, wxjssdk} from '../api/api'
   export default {
     components: {
       Swipe, SwipeItem
@@ -42,6 +43,10 @@
         if (data.success === 1) {
           this.banner_list = data.data.list
         }
+      })
+      console.log(wxSDK)
+      wxjssdk(data => {
+        console.log(data)
       })
     },
     methods: {
