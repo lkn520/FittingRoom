@@ -4,12 +4,16 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  isShowFooter: true
+  isShowFooter: true,
+  brand: null
 }
 
 const mutations = {
   toggleFooter (state, bln) {
     state.isShowFooter = bln
+  },
+  setBrand (state, brand) {
+    state.brand = brand
   }
 }
 

@@ -6,7 +6,6 @@
 </template>
 <script>
   import vFooter from './components/components/footer.vue'
-  import {getBrandDetail} from './api/api'
   import {mapState} from 'vuex'
   export default {
     name: 'app',
@@ -32,7 +31,6 @@
         }
       }
       setDocumentTitle(localStorage.getItem('brand'))
-      getBrandDetail({brand_id: localStorage.getItem('brand')})
     }
   }
 </script>

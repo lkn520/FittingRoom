@@ -45,10 +45,13 @@ export const getGoodsDetail = params => axios.get(`${DOMAIN}/Web/api?act=getGood
 // 精选搭配 /Web/api?act=getChoicenessMatchList
 export const getChoicenessMatchList = params => axios.get(`${DOMAIN}/Web/api?act=getChoicenessMatchList`, {params: params}).then(res => res.data)
 
+// 删除搭配 /Web/api?act=deleteMatch
+export const deleteMath = params => axios.get(`${DOMAIN}/Web/api?act=deleteMatch`, {params: params}).then(res => res.data)
+
 // 获取品牌信息
 export const getBrandDetail = params => axios.get(`${DOMAIN}/Web/api?act=getBrandDetail`, {params: params}).then(res => res.data)
 
 // 获取微信配置
-export const wxjssdk = () => axios.get('http://jssdk.kelei.cc/index.php/Index/queryApi2?TokenID=jiazaiyun').then(res => res.data)
+export const wxjssdk = () => axios.get(`${DOMAIN}/Web/api?act=getWxJsSdkConfig`).then(res => res.data)
 
 export const testpost = params => axios.post('url', params).then(res => res.data)

@@ -32,11 +32,15 @@
 <script>
   import { Swipe, SwipeItem } from 'vue-swipe'
   import 'vue-swipe/dist/vue-swipe.css'
-  import wxSDK from 'weixin-js-sdk'
-  import {getCarousel, getBrandRecommendCommodity, wxjssdk} from '../api/api'
+  import wx from 'weixin-js-sdk'
+  import {mapState} from 'vuex'
+  import {getCarousel, getBrandRecommendCommodity, wxjssdk, getBrandDetail} from '../api/api'
   export default {
     components: {
       Swipe, SwipeItem
+    },
+    computed: {
+      ...mapState['brand']
     },
     created () {
       getCarousel().then(data => {
@@ -44,9 +48,37 @@
           this.banner_list = data.data.list
         }
       })
-      console.log(wxSDK)
-      wxjssdk(data => {
-        console.log(data)
+      wxjssdk().then(data => {
+        if (data.success === 1) {
+          let {appId, nonceStr, signature, timestamp} = data.data
+          wx.config({
+            debug: false,
+            appId,
+            nonceStr,
+            signature,
+            timestamp,
+            jsApiList: ['onMenuShareTimeline']
+          })
+        }
+      })
+      // 分享
+      wx.ready(() => {
+        getBrandDetail({brand: localStorage.getItem('brand')}).then(data => {
+          if (data.success === 1) {
+            let {img, name} = data.data.info
+            wx.onMenuShareTimeline({
+              title: name, // 分享标题
+              link: '', // 分享链接
+              imgUrl: img, // 分享图标
+              success () {
+                // 用户确认分享后执行的回调函数
+              },
+              cancel () {
+                // 用户取消分享后执行的回调函数
+              }
+            })
+          }
+        })
       })
     },
     methods: {

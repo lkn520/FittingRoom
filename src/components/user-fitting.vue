@@ -1,9 +1,10 @@
 <template>
   <div id="user-fitting" v-infinite-scroll="getMyMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
     <div class="fitting-list">
-      <div class="item" v-for="fitting in fitting_list">
+      <div class="item" v-for="(fitting, i) in fitting_list">
         <i class="iconfont icon-weishoucang fitting-collect" v-show="fitting.is_my_collect === 1 && fitting.is_collect === 0" @click="toggleCollect(fitting)"></i>
         <i class="iconfont icon-yishoucang fitting-collect" v-show="fitting.is_my_collect === 1 && fitting.is_collect === 1" @click="toggleCollect(fitting)"></i>
+        <i class="iconfont icon-shanchu fitting-delete" v-show="fitting.is_my_collect === 0" @click="deleteFitting(fitting, i)"></i>
         <div class="image-block">
           <v-image :source="fitting.img | imageFormat" size="contain"></v-image>
         </div>
@@ -20,7 +21,7 @@
   </div>
 </template>
 <script>
-  import {getMyMatchList, toggleCollect} from '../api/api'
+  import {getMyMatchList, toggleCollect, deleteMath} from '../api/api'
   export default {
     data () {
       return {
@@ -60,6 +61,18 @@
         toggleCollect(params).then(data => {
           if (data.success === 1) {
             match.is_collect = data.data.is_collect
+          }
+        })
+      },
+      deleteFitting (match, i) {
+        let params = {
+          match_id: match.match_id,
+          user_id: localStorage.getItem('user_id')
+        }
+        deleteMath(params).then(data => {
+          if (data.success === 1) {
+            this.fitting_list.splice(i, 1)
+            this.$message(data.desc)
           }
         })
       }

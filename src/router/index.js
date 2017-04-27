@@ -80,7 +80,7 @@ export default new Router({
       }
     },
     {
-      path: '/fitting/detail/:match_id',
+      path: '/fitting-detail/:match_id',
       name: 'fitting-detail',
       component (resolve) {
         require(['@/components/fitting-detail'], resolve)
