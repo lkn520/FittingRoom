@@ -43,7 +43,7 @@
       ...mapState['brand']
     },
     created () {
-      getCarousel().then(data => {
+      getCarousel({brand: localStorage.getItem('brand')}).then(data => {
         if (data.success === 1) {
           this.banner_list = data.data.list
         }

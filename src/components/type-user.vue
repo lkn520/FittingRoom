@@ -37,7 +37,8 @@
         let params = {
           page_num: this.page_num,
           page_no: this.page_no,
-          user_id: localStorage.getItem('user_id')
+          user_id: localStorage.getItem('user_id'),
+          brand: localStorage.getItem('brand')
         }
         this.busy = true
         getMatchList(params).then(data => {

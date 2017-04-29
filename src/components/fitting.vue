@@ -41,7 +41,7 @@
     </div>
     <div class="fitting-goods" :class="{'pull-down-enter': isPullDown}" @touchmove.stop>
       <div class="icon-arrow" :class="{'pull-up': isPullDown}" @click="isPullDown = !isPullDown"><i class="iconfont icon-zhankai"></i></div>
-      <div class="goods-nav">
+      <div class="goods-nav" :class="{'overflow-hidden': isPullDown}">
         <div class="nav-list">
           <div class="item" :class="{'active': 'r' == category_id}" @click="setCategoryGoods('r')">
             <span>推荐</span>
@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-      <div class="goods-group" v-infinite-scroll="getCategoryGoods" infinite-scroll-disabled="busy" infinite-scroll-distance="10" infinite-scroll-immediate-check="true">
+      <div class="goods-group" :class="{'overflow-hidden': isPullDown}" v-infinite-scroll="getCategoryGoods" infinite-scroll-disabled="busy" infinite-scroll-distance="10" infinite-scroll-immediate-check="true">
         <div class="goods-list">
           <div class="item" v-for="goods in goods_list" @click="selectGoods(goods)" :class="{'current': goods.current}">
             <v-image :source="goods.img | imageFormat" size="contain"></v-image>
@@ -110,8 +110,8 @@
           this.nav_list = data.data.list
         }
       })
-      // 获取分类商品
-      this.setCategoryGoods('r')
+      // 获取推荐商品
+      this.getCategoryGoods('r')
       // 缩放
       this.$on('onScale', (goods, scale) => {
         goods.scale = scale + (+goods.scale)
@@ -220,7 +220,9 @@
         }
       },
       selectGoods (goods) {
-        if (!this.isPullDown) {
+        if (this.isPullDown) {
+          this.isPullDown = false
+        } else {
           if (!goods.current) {
             let goodsObj = {
               goods_id: goods.goods_id,
@@ -234,13 +236,12 @@
               sort: this.sort++
             }
             this.scene_list.push(goodsObj)
+            this.isPullDown = true
           } else {
             this.scene_list = this.scene_list.filter((item) => {
               return item.goods_id !== goods.goods_id
             })
           }
-        } else {
-          this.isPullDown = false
         }
       },
       saveFitting () {
@@ -255,7 +256,8 @@
             let params = {
               user_id: localStorage.getItem('user_id'),
               jsonStrGoods: JSON.stringify(_this.scene_list),
-              base64Img
+              base64Img,
+              brand: localStorage.getItem('brand')
             }
             if (_this.$route.query.collect === 0 && _this.$route.query.match_id) {
               params.match_id = _this.$route.query.match_id
@@ -267,14 +269,21 @@
         })
       },
       setCategoryGoods (id) {
-        this.category_id = id
-        this.page_no = 1
-        this.goods_list = []
-        this.getCategoryGoods()
+        if (this.isPullDown) {
+          this.isPullDown = false
+        } else {
+          this.category_id = id
+          this.page_no = 1
+          this.goods_list = []
+          this.getCategoryGoods()
+        }
       },
       getCategoryGoods () {
+        if (typeof arguments[0] !== 'undefined') {
+          this.category_id = arguments[0]
+        }
         let params = {
-          category: this.category_id,
+          category: this.categroy_id,
           page_num: this.page_num,
           page_no: this.page_no,
           user_id: localStorage.getItem('user_id'),
