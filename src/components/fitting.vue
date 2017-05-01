@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-      <div class="goods-group" :class="{'overflow-hidden': isPullDown}" v-infinite-scroll="getCategoryGoods" infinite-scroll-disabled="busy" infinite-scroll-distance="10" infinite-scroll-immediate-check="true">
+      <div class="goods-group" v-infinite-scroll="getCategoryGoods" infinite-scroll-disabled="busy" infinite-scroll-distance="10" infinite-scroll-immediate-check="true">
         <div class="goods-list">
           <div class="item" v-for="goods in goods_list" @click="selectGoods(goods)" :class="{'current': goods.current}">
             <v-image :source="goods.img | imageFormat" size="contain"></v-image>
@@ -283,13 +283,13 @@
           this.category_id = arguments[0]
         }
         let params = {
-          category: this.categroy_id,
+          category: this.category_id,
           page_num: this.page_num,
           page_no: this.page_no,
           user_id: localStorage.getItem('user_id'),
           brand: localStorage.getItem('brand')
         }
-        this.busy = true
+        // this.busy = true
         getCategoryGoods(params).then(data => {
           if (data.success === 1) {
             if (this.page_no <= data.data.pageTotal) {
