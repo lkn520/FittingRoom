@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-page" v-infinite-scroll="getChoicenessMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="20">
+  <div class="goods-page" v-infinite-scroll="getChoicenessMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="20" infinite-scroll-immediate-check="true">
     <v-header v-if="goods_detail" :title="goods_detail.brand_name"></v-header>
     <div v-if="goods_detail">
       <div class="goods-detail">
@@ -70,10 +70,9 @@
     },
     beforeRouteUpdate (to, from, next) {
       this.page_no = 1
-      this.choiceness_list = []
+
       this.busy = false
       this.getGoodsDetail(to.params.goods_id)
-      this.getChoicenessMatchList(to.params.goods_id)
       next()
     },
     methods: {
@@ -122,8 +121,12 @@
         getGoodsDetail(params).then(data => {
           if (data.success === 1) {
             this.goods_detail = data.data
-            this.goToTop()
+            this.$nextTick(() => {
+              this.goToTop()
+            })
           }
+          this.choiceness_list = []
+          this.getChoicenessMatchList(goodsId)
         })
       }
     },

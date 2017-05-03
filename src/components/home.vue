@@ -32,61 +32,30 @@
 <script>
   import { Swipe, SwipeItem } from 'vue-swipe'
   import 'vue-swipe/dist/vue-swipe.css'
-  import wx from 'weixin-js-sdk'
   import {mapState} from 'vuex'
-  import {getCarousel, getBrandRecommendCommodity, wxjssdk, getBrandDetail} from '../api/api'
+  import {getCarousel, getBrandRecommendCommodity} from '../api/api'
   export default {
     components: {
       Swipe, SwipeItem
     },
-    computed: {
-      ...mapState['brand']
-    },
     created () {
+      // 轮播图
       getCarousel({brand: localStorage.getItem('brand')}).then(data => {
         if (data.success === 1) {
           this.banner_list = data.data.list
         }
       })
-      wxjssdk().then(data => {
-        if (data.success === 1) {
-          let {appId, nonceStr, signature, timestamp} = data.data
-          wx.config({
-            debug: false,
-            appId,
-            nonceStr,
-            signature,
-            timestamp,
-            jsApiList: ['onMenuShareTimeline']
-          })
-        }
-      })
-      // 分享
-      wx.ready(() => {
-        getBrandDetail({brand: localStorage.getItem('brand')}).then(data => {
-          if (data.success === 1) {
-            let {img, name} = data.data.info
-            wx.onMenuShareTimeline({
-              title: name, // 分享标题
-              link: '', // 分享链接
-              imgUrl: img, // 分享图标
-              success () {
-                // 用户确认分享后执行的回调函数
-              },
-              cancel () {
-                // 用户取消分享后执行的回调函数
-              }
-            })
-          }
-        })
-      })
+    },
+    computed: {
+      ...mapState['brand']
     },
     methods: {
       getBrandRecommendCommodity () {
         let params = {
           page_num: this.page_num,
           page_no: this.page_no,
-          brand: localStorage.getItem('brand')
+          brand: localStorage.getItem('brand'),
+          user_id: localStorage.getItem('user_id')
         }
         this.busy = true
         getBrandRecommendCommodity(params).then(data => {
