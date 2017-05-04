@@ -9,16 +9,16 @@ export default Utils.install = (Vue, options) => {
     document.querySelector('body').appendChild(msgElement.$el)
   }
   // 分享url
-  Vue.prototype.$shareUrlFormat = (url) => {
+  Vue.prototype.$shareUrlFormat = (url, queryObj) => {
     let queryArr = []
-    if (localStorage.getItem('brand')) {
-      queryArr.push(`brand=${localStorage.getItem('brand')}`)
+    for (let query in queryObj) {
+      queryArr.push(`${query}=${queryObj[query]}`)
     }
     let queryStr = queryArr.join('&')
     if (queryStr) {
-      return url + '?' + queryStr
+      return (url + '?' + queryStr)
     } else {
-      return url
+      return encodeURIComponent(url)
     }
   }
 }

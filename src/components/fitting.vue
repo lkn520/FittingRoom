@@ -66,21 +66,40 @@
 </template>
 <script>
   import vHeader from './components/header.vue'
-  import {createUserMatch, getTopCategory, getCategoryGoods, getMatchDetail, getGoodsDetail} from '../api/api'
+  import wx from 'weixin-js-sdk'
+  import {createUserMatch, getTopCategory, getCategoryGoods, getMatchDetail, getGoodsDetail, wxjssdk} from '../api/api'
   import Html2canvas from 'html2canvas'
   export default {
     components: {
       vHeader
     },
     created () {
+      console.log(this.$route)
       // 判断再次搭配
       if (this.$route.query.match_id) {
+        let shareUrl = this.$shareUrlFormat(location.href.split('?')[0], {match_id: this.$route.query.match_id, brand: localStorage.getItem('brand')})
         let params = {
           match_id: this.$route.query.match_id
         }
+
         getMatchDetail(params).then(data => {
           if (data.success === 1) {
             this.scene_list = data.data.list
+
+            wx.ready(() => {
+              // 分享朋友圈
+              wx.onMenuShareTimeline({
+                title: localStorage.getItem('brand'), // 分享标题
+                link: shareUrl, // 分享链接
+                imgUrl: data.data.info.img // 分享图标
+              })
+              // 分享好友
+              wx.onMenuShareAppMessage({
+                title: localStorage.getItem('brand'), // 分享标题
+                link: shareUrl, // 分享链接
+                imgUrl: data.data.info.img // 分享图标
+              })
+            })
           }
         })
       } else if (this.$route.query.goods_id) {
@@ -119,6 +138,20 @@
       // 旋转
       this.$on('onRotate', (goods, angle) => {
         goods.angle = angle + (+goods.angle)
+      })
+      // 获取微信配置
+      wxjssdk({curr_url: location.href.split('#')[0]}).then(data => {
+        if (data.success === 1) {
+          let {appId, nonceStr, signature, timestamp} = data.data
+          wx.config({
+            debug: false,
+            appId,
+            nonceStr,
+            signature,
+            timestamp,
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
+          })
+        }
       })
     },
     data () {

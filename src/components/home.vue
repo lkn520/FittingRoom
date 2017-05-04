@@ -15,7 +15,7 @@
         所有商品&nbsp;&nbsp;<i class="iconfont icon-suoyoushangpin"></i>
       </router-link>
     </div>
-    <div class="goods" v-infinite-scroll="getBrandRecommendCommodity" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+    <div class="goods" v-infinite-scroll="getHomeRecommend" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
       <div class="goods-list">
         <router-link class="goods-item" v-for="goods in recommend_list" :to="{name: 'goods', params: {goods_id: goods.goods_id}}" :key="goods.goods_id">
           <div class="goods-image">
@@ -33,7 +33,7 @@
   import { Swipe, SwipeItem } from 'vue-swipe'
   import 'vue-swipe/dist/vue-swipe.css'
   import {mapState} from 'vuex'
-  import {getCarousel, getBrandRecommendCommodity} from '../api/api'
+  import {getCarousel, getHomeRecommend} from '../api/api'
   export default {
     components: {
       Swipe, SwipeItem
@@ -50,21 +50,16 @@
       ...mapState['brand']
     },
     methods: {
-      getBrandRecommendCommodity () {
+      getHomeRecommend () {
         let params = {
           page_num: this.page_num,
-          page_no: this.page_no,
           brand: localStorage.getItem('brand'),
           user_id: localStorage.getItem('user_id')
         }
         this.busy = true
-        getBrandRecommendCommodity(params).then(data => {
+        getHomeRecommend(params).then(data => {
           if (data.success === 1) {
-            if (this.page_no <= data.data.pageTotal) {
-              this.page_no ++
-              this.busy = false
-              this.recommend_list.push(...data.data.list)
-            }
+            this.recommend_list.push(...data.data.list)
           }
         })
       }
@@ -73,7 +68,7 @@
       return {
         banner_list: [],
         recommend_list: [],
-        page_num: 10,
+        page_num: 100,
         page_no: 1,
         busy: false
       }

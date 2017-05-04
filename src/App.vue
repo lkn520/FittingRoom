@@ -35,7 +35,7 @@
       setDocumentTitle(localStorage.getItem('brand'))
     },
     created () {
-      let shareUrl = this.$shareUrlFormat(location.href)
+      let shareUrl = this.$shareUrlFormat(location.href.split('?')[0], {brand: localStorage.getItem('brand')})
       // 获取微信配置
       wxjssdk({curr_url: location.href.split('#')[0]}).then(data => {
         if (data.success === 1) {
@@ -46,7 +46,7 @@
             nonceStr,
             signature,
             timestamp,
-            jsApiList: ['onMenuShareTimeline']
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
           })
         }
       })

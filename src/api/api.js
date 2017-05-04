@@ -13,7 +13,7 @@ export const userLogin = params => axios.get(`${DOMAIN}/Web/api?act=login`, {par
 export const userReg = params => axios.get(`${DOMAIN}/Web/api?act=register`, {params: params}).then(res => res.data)
 
 // 首页推荐 /Web/api?act=getHomeRecommend
-export const getBrandRecommendCommodity = params => axios.get(`${DOMAIN}/Web/api?act=getHomeRecommend`, {params: params}).then(res => res.data)
+export const getHomeRecommend = params => axios.get(`${DOMAIN}/Web/api?act=getHomeRecommend`, {params: params}).then(res => res.data)
 
 // 顶级分类
 export const getTopCategory = params => axios.get(`${DOMAIN}/Web/api?act=getTopCategory`, {params: params}).then(res => res.data)
