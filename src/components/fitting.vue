@@ -67,14 +67,15 @@
 <script>
   import vHeader from './components/header.vue'
   import wx from 'weixin-js-sdk'
-  import {createUserMatch, getTopCategory, getCategoryGoods, getMatchDetail, getGoodsDetail, wxjssdk} from '../api/api'
+  import {createUserMatch, getTopCategory, getCategoryGoods, getMatchDetail, getGoodsDetail} from '../api/api'
   import Html2canvas from 'html2canvas'
   export default {
     components: {
       vHeader
     },
     created () {
-      console.log(this.$route)
+      // 获取微信配置
+      this.$wxjssdk()
       // 判断再次搭配
       if (this.$route.query.match_id) {
         let shareUrl = this.$shareUrlFormat(location.href.split('?')[0], {match_id: this.$route.query.match_id, brand: localStorage.getItem('brand')})
@@ -124,7 +125,7 @@
         })
       }
       // 获取分类
-      getTopCategory({brand: localStorage.getItem('brand')}).then(data => {
+      getTopCategory({brand: localStorage.getItem('brand'), is_match_page: 1}).then(data => {
         if (data.success === 1) {
           this.nav_list = data.data.list
         }
@@ -138,20 +139,6 @@
       // 旋转
       this.$on('onRotate', (goods, angle) => {
         goods.angle = angle + (+goods.angle)
-      })
-      // 获取微信配置
-      wxjssdk({curr_url: location.href.split('#')[0]}).then(data => {
-        if (data.success === 1) {
-          let {appId, nonceStr, signature, timestamp} = data.data
-          wx.config({
-            debug: false,
-            appId,
-            nonceStr,
-            signature,
-            timestamp,
-            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
-          })
-        }
       })
     },
     data () {
@@ -259,6 +246,7 @@
           if (!goods.current) {
             let goodsObj = {
               goods_id: goods.goods_id,
+              is_goods: goods.is_goods,
               goods: {
                 img: goods.img
               },

@@ -32,7 +32,11 @@ Vue.filter('priceFormat', (value) => {
 })
 
 Vue.filter('upperCase', (value) => {
-  return value.toUpperCase()
+  if (typeof value === 'string') {
+    return value.toUpperCase()
+  } else {
+    return value
+  }
 })
 
 router.beforeEach((to, from, next) => {

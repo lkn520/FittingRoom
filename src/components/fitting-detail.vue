@@ -6,7 +6,7 @@
     </div>
     <div class="fitting-detail-goods">
       <div class="goods-list">
-        <div class="item" v-for="goods in fitting.list">
+        <div class="item" v-for="goods in fitting.list" v-if="goods.is_goods == 1">
           <div class="image-block">
             <v-image :source="goods.goods.img | imageFormat" size="contain"></v-image>
           </div>
