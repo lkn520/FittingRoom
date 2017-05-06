@@ -29,7 +29,7 @@ export default Utils.install = (Vue, options) => {
   }
   // 配置微信
   Vue.prototype.$wxjssdk = () => {
-    wxjssdk({curr_url: location.href.split('#')[0]}).then(data => {
+    wxjssdk({curr_url: encodeURIComponent(location.href.split('#')[0])}).then(data => {
       if (data.success === 1) {
         let {appId, nonceStr, signature, timestamp} = data.data
         wx.config({
