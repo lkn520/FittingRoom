@@ -46,7 +46,7 @@
           this.banner_list = data.data.list
         }
       })
-      let shareUrl = this.$shareUrlFormat(location.href.split('?')[0], {brand: localStorage.getItem('brand')})
+      let shareUrl = this.$shareUrlFormat(this.$route.path, {brand: localStorage.getItem('brand')})
       // 获取微信配置
       this.$wxjssdk()
       // 分享

@@ -11,16 +11,14 @@ export default Utils.install = (Vue, options) => {
     document.querySelector('body').appendChild(msgElement.$el)
   }
   // 分享url
-  Vue.prototype.$shareUrlFormat = (url, queryObj) => {
+  Vue.prototype.$shareUrlFormat = (path, queryObj) => {
     let queryArr = []
-
-    if (!/#\//.test(url)) {
-      url += '#/'
-    }
+    let url = 'http://' + location.host + `#${path}`
     for (let query in queryObj) {
       queryArr.push(`${query}=${queryObj[query]}`)
     }
     let queryStr = queryArr.join('&')
+    console.log(url + '?' + queryStr)
     if (queryStr) {
       return url + '?' + queryStr
     } else {

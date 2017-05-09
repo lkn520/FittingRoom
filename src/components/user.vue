@@ -20,7 +20,7 @@
       tabs, tabPane
     },
     created () {
-      let shareUrl = this.$shareUrlFormat(location.href.split('?')[0], {brand: localStorage.getItem('brand')})
+      let shareUrl = this.$shareUrlFormat('/', {brand: localStorage.getItem('brand')})
       // 获取微信配置
       this.$wxjssdk()
       // 分享

@@ -78,7 +78,7 @@
       this.$wxjssdk()
       // 判断再次搭配
       if (this.$route.query.match_id) {
-        let shareUrl = this.$shareUrlFormat(location.href.split('?')[0], {match_id: this.$route.query.match_id, brand: localStorage.getItem('brand')})
+        let shareUrl = this.$shareUrlFormat(this.$route.path, {match_id: this.$route.query.match_id, brand: localStorage.getItem('brand')})
         let params = {
           match_id: this.$route.query.match_id
         }
@@ -86,7 +86,6 @@
         getMatchDetail(params).then(data => {
           if (data.success === 1) {
             this.scene_list = data.data.list
-
             wx.ready(() => {
               // 分享朋友圈
               wx.onMenuShareTimeline({
@@ -273,7 +272,7 @@
           allowTaint: true,
           taintTest: false,
           onrendered (canvas) {
-            base64Img = canvas.toDataURL()
+            base64Img = canvas.toDataURL('image/png', 1.0)
             let params = {
               user_id: localStorage.getItem('user_id'),
               jsonStrGoods: JSON.stringify(_this.scene_list),
