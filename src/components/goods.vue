@@ -1,6 +1,8 @@
 <template>
   <div class="goods-page" v-infinite-scroll="getChoicenessMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="20" infinite-scroll-immediate-check="true">
-    <v-header v-if="goods_detail" :title="goods_detail.brand_name"></v-header>
+    <v-header v-if="goods_detail" :title="goods_detail.brand_name">
+      <i slot="right" class="iconfont icon-shouye" @click="$router.push({'name': 'home'})"></i>
+    </v-header>
     <div v-if="goods_detail">
       <div class="goods-detail">
         <div class="image-block">
@@ -15,6 +17,9 @@
         </div>
         <div class="goods-collect" v-else @click="toggleCollect">
           <i class="iconfont icon-yishoucang icon-collected"></i>&nbsp;已收藏
+        </div>
+        <div class="goods-fitting" @click="$router.push({name: 'fitting', query: {goods_id: goods_detail.goods_id}})">
+          <i class="iconfont icon-dapei"></i>&nbsp;搭配
         </div>
       </div>
       <div class="detail-block">

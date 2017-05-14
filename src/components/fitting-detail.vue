@@ -1,8 +1,21 @@
 <template>
   <div v-if="fitting">
-    <v-header title="搭配方案"></v-header>
+    <v-header title="搭配方案">
+      <i slot="right" class="iconfont icon-shouye" @click="$router.push({'name': 'home'})"></i>
+    </v-header>
     <div class="fitting-image">
       <v-image :source="fitting.info.img | imageFormat" size="contain"></v-image>
+    </div>
+    <div class="fitting-edit">
+      <div class="fitting-edit__btn" @click="toggleCollect(fitting.info)" v-if="fitting.info.is_collect == 1">
+        <i class="iconfont icon-yishoucang"></i>&nbsp;&nbsp;已收藏
+      </div>
+      <div class="fitting-edit__btn" @click="toggleCollect(fitting.info)" v-else>
+        <i class="iconfont icon-weishoucang"></i>&nbsp;&nbsp;收藏
+      </div>
+      <router-link class="fitting-edit__btn" :to="{name: 'fitting', query: {match_id: fitting.info.id}}">
+        <i class="iconfont icon-dapei"></i>&nbsp;&nbsp;设计
+      </router-link>
     </div>
     <div class="fitting-detail-goods">
       <div class="goods-list">
@@ -25,7 +38,7 @@
 </template>
 <script>
   import vHeader from './components/header.vue'
-  import {getMatchDetail} from '../api/api'
+  import {getMatchDetail, toggleCollect} from '../api/api'
   export default {
     components: {
       vHeader
@@ -43,6 +56,20 @@
     data () {
       return {
         fitting: null
+      }
+    },
+    methods: {
+      toggleCollect (match) {
+        let params = {
+          type: 2,
+          user_id: localStorage.getItem('user_id'),
+          concrete_id: match.id
+        }
+        toggleCollect(params).then(data => {
+          if (data.success === 1) {
+            match.is_collect = data.data.is_collect
+          }
+        })
       }
     }
   }
