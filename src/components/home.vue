@@ -1,12 +1,5 @@
 <template>
   <div>
-    <div class="home-swipe">
-      <swipe>
-        <swipe-item class="swipe-item" v-for="item in banner_list" :key="item.banner_id">
-          <v-image :source="item.img | imageFormat"></v-image>
-        </swipe-item>
-      </swipe>
-    </div>
     <div class="nav">
       <router-link class="left" :to="{name: 'fitting'}">
         <i class="iconfont icon-dapei"></i>&nbsp;&nbsp;开始搭配
@@ -16,16 +9,19 @@
       </router-link>
     </div>
     <div class="goods" v-infinite-scroll="getHomeRecommend" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
-      <div class="goods-list">
-        <router-link class="goods-item" v-for="goods in recommend_list" :to="{name: 'goods', params: {goods_id: goods.goods_id}}" :key="goods.goods_id">
-          <div class="goods-image">
-            <v-image :source="goods.img | imageFormat" size="contain"></v-image>
-          </div>
-          <p class="goods-text">{{goods.brand_name}}</p>
-          <p class="goods-text">{{goods.title}}</p>
-          <p class="goods-text goods-price">{{goods.selling_price | priceFormat}}</p>
-        </router-link>
-      </div>
+      <template v-for="goodsAndFitting in recommend_list">
+        <v-fitting-item v-for="match in goodsAndFitting.match_list" :match="match" :key="match.match_id"></v-fitting-item>
+        <div class="goods-list">
+          <router-link class="goods-item" v-for="goods in goodsAndFitting.goods_list" :to="{name: 'goods', params: {goods_id: goods.goods_id}}" :key="goods.goods_id">
+            <div class="goods-image">
+              <v-image :source="goods.img | imageFormat" size="contain"></v-image>
+            </div>
+            <p class="goods-text">{{goods.brand_name}}</p>
+            <p class="goods-text">{{goods.title}}</p>
+            <p class="goods-text goods-price">{{goods.selling_price | priceFormat}}</p>
+          </router-link>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -34,12 +30,14 @@
   import 'vue-swipe/dist/vue-swipe.css'
   import {mapState} from 'vuex'
   import wx from 'weixin-js-sdk'
-  import {getCarousel, getHomeRecommend, getBrandDetail} from '../api/api'
+  import vFittingItem from './components/fitting-item.vue'
+  import {getCarousel, getBrandDetail, getHomeData} from '../api/api'
   export default {
     components: {
-      Swipe, SwipeItem
+      Swipe, SwipeItem, vFittingItem
     },
     created () {
+      getHomeData()
       // 轮播图
       getCarousel({brand: localStorage.getItem('brand')}).then(data => {
         if (data.success === 1) {
@@ -82,7 +80,7 @@
           user_id: localStorage.getItem('user_id')
         }
         this.busy = true
-        getHomeRecommend(params).then(data => {
+        getHomeData(params).then(data => {
           if (data.success === 1) {
             this.recommend_list.push(...data.data.list)
           }

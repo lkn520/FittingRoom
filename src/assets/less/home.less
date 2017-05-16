@@ -6,10 +6,18 @@
 
 /* 导航 */
 .nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
   display: flex;
   border-top: 1px solid @shallowBorder;
   border-bottom: 1px solid @shallowBorder;
   background-color: @bgColor;
+  height: 1.2rem;
+  & + * {
+    margin-top: 1.2rem;
+  }
   .left, .right {
     flex: 1;
     display: flex;

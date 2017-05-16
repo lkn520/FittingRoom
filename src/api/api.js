@@ -51,6 +51,9 @@ export const deleteMath = params => axios.get(`${DOMAIN}/Web/api?act=deleteMatch
 // 获取品牌信息
 export const getBrandDetail = params => axios.get(`${DOMAIN}/Web/api?act=getBrandDetail`, {params: params}).then(res => res.data)
 
+// 获取首页信息
+export const getHomeData = params => axios.get(`${DOMAIN}/Web/api?act=getHomeData`, {params: params}).then(res => res.data)
+
 // 获取微信配置
 export const wxjssdk = params => axios.get(`${DOMAIN}/Web/api?act=getWxJsSdkConfig`, {params: params}).then(res => res.data)
 
