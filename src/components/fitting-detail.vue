@@ -45,7 +45,8 @@
     },
     created () {
       let params = {
-        match_id: this.$route.params.match_id
+        match_id: this.$route.params.match_id,
+        user_id: localStorage.getItem('user_id')
       }
       getMatchDetail(params).then(data => {
         if (data.success === 1) {
