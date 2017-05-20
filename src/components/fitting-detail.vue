@@ -38,12 +38,17 @@
 </template>
 <script>
   import vHeader from './components/header.vue'
+  import wx from 'weixin-js-sdk'
   import {getMatchDetail, toggleCollect} from '../api/api'
   export default {
     components: {
       vHeader
     },
     created () {
+      let shareUrl = this.$shareUrlFormat(this.$route.path, {brand: localStorage.getItem('brand')})
+      // 获取微信配置
+      this.$wxjssdk()
+
       let params = {
         match_id: this.$route.params.match_id,
         user_id: localStorage.getItem('user_id')
@@ -51,6 +56,20 @@
       getMatchDetail(params).then(data => {
         if (data.success === 1) {
           this.fitting = data.data
+          wx.ready(() => {
+            // 分享朋友圈
+            wx.onMenuShareTimeline({
+              title: localStorage.getItem('brand'), // 分享标题
+              link: shareUrl, // 分享链接
+              imgUrl: data.data.info.img // 分享图标
+            })
+            // 分享好友
+            wx.onMenuShareAppMessage({
+              title: localStorage.getItem('brand'), // 分享标题
+              link: shareUrl, // 分享链接
+              imgUrl: data.data.info.img // 分享图标
+            })
+          })
         }
       })
     },

@@ -37,7 +37,6 @@
       Swipe, SwipeItem, vFittingItem
     },
     created () {
-      getHomeData()
       // 轮播图
       getCarousel({brand: localStorage.getItem('brand')}).then(data => {
         if (data.success === 1) {
