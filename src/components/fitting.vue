@@ -40,7 +40,7 @@
       </div>
     </div>
     <div class="fitting-goods" :class="{'pull-down-enter': isPullDown}" @touchmove.stop>
-      <div class="icon-arrow" :class="{'pull-up': !isPullDown}" @click="isPullDown = !isPullDown"><i class="iconfont icon-shouqi"></i></div>
+      <div class="icon-arrow" :class="{'pull-up': isPullDown}" @click="isPullDown = !isPullDown"><i class="iconfont icon-shouqi"></i></div>
       <div class="goods-nav" :class="{'overflow-hidden': isPullDown}">
         <div class="nav-list">
           <div class="item" :class="{'active': 'r' == category_id}" @click="setCategoryGoods('r')">
