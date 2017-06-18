@@ -1,5 +1,5 @@
 <template>
-  <div class="match-block" v-infinite-scroll="getMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+  <div class="match-block" v-infinite-scroll="getMatchList" infinite-scroll-disabled="busy" infinite-scroll-distance="100">
     <div class="match-list">
       <v-fitting-item v-for="match in match_list" :match="match" :key="match.match_id">
 
@@ -16,7 +16,7 @@
     },
     data () {
       return {
-        page_num: 10,
+        page_num: 4,
         page_no: 1,
         match_list: [],
         busy: false

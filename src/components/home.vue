@@ -8,7 +8,7 @@
         所有商品&nbsp;&nbsp;<i class="iconfont icon-suoyoushangpin"></i>
       </router-link>
     </div>
-    <div class="goods" v-infinite-scroll="getHomeRecommend" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+    <div class="goods" v-infinite-scroll="getHomeRecommend" infinite-scroll-disabled="busy" infinite-scroll-distance="100">
       <template v-for="goodsAndFitting in recommend_list">
         <v-fitting-item v-for="match in goodsAndFitting.match_list" :match="match" :key="match.match_id"></v-fitting-item>
         <div class="goods-list">
@@ -75,13 +75,18 @@
       getHomeRecommend () {
         let params = {
           page_num: this.page_num,
+          page_no: this.page_no,
           brand: localStorage.getItem('brand'),
           user_id: localStorage.getItem('user_id')
         }
         this.busy = true
         getHomeData(params).then(data => {
           if (data.success === 1) {
-            this.recommend_list.push(...data.data.list)
+            if (this.page_no <= data.data.pageTotal) {
+              this.recommend_list.push(...data.data.list)
+              this.page_no ++
+              this.busy = false
+            }
           }
         })
       }
@@ -90,7 +95,7 @@
       return {
         banner_list: [],
         recommend_list: [],
-        page_num: 100,
+        page_num: 1,
         page_no: 1,
         busy: false
       }

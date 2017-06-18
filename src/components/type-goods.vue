@@ -1,5 +1,5 @@
 <template>
-  <div id="type-goods" v-infinite-scroll="getCategoryGoods" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+  <div id="type-goods" v-infinite-scroll="getCategoryGoods" infinite-scroll-disabled="busy" infinite-scroll-distance="100">
     <v-header :title="$route.params.title"></v-header>
     <div class="goods-list">
       <router-link class="item" v-for="item in goods_list" :to="{name: 'goods', params: {goods_id: item.goods_id}}" :key="item.goods_id">
@@ -30,7 +30,7 @@
     },
     data () {
       return {
-        page_num: 10,
+        page_num: 8,
         page_no: 1,
         goods_list: [],
         busy: false
